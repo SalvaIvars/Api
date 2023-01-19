@@ -2,23 +2,55 @@ const Usuario = require("../models/usuarios")
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
  
-const signUp =  (req, res) => {
-    const {nombre, email, password, rol} = req.body
+// register
+const signUp = async (req, res) => { 
+    const {nombre, password} = req.body
 
-    console.log("NOMBRE EMAIL PASSWORD" + nombre + " " + email + " " + password)
-    const newUsuario = new Usuario({
-        nombre,
-        email,
-        password: Usuario.encryptPassword(password)
+    if(!nombre || !password) return res.status(400).json({message:'Username and password are required.'})
+
+    const duplicate = await Usuario.findOne({"nombre":nombre}, (err, info) => {
+        if(err){
+            res.status(400)
+        }else{ 
+            return info
+        }
+    }).clone()
+
+    if(duplicate != null)  return res.status(409).json({message:'Username is allready chosen'})
+
+    const hashedPwd = await bcrypt.hash(password, 10)
+
+    const usuarioGuardar = await new Usuario({
+        id_usuario: req.body.id_usuario,
+        nombre: req.body.nombre,
+        apellidos: req.body.apellidos,
+        email: req.body.email,
+        fecha: req.body.fecha,
+        nick: req.body.nick,
+        password:hashedPwd,
+        siguiendo: req.body.siguiendo,
+        foto: req.body.foto,
+        web: req.body.web,
+        rol: req.body.rol
     })
-    console.log("sdfasdfasd")
-   const savedUser =  newUsuario.save()
-    const token = jwt.sign({id: savedUser._id}, 'secretkey', {
-        expiresIn: 86400
+
+    const token = jwt.sign({     
+        "nombre": foundUser.nombre,
+        "rol": foundUser.rol
+        },
+        'secretkey', // process.env.ACCESS_TOKEN_SECRET
+        {expiresIn:'1d' }
+    )
+
+    usuarioGuardar.save((err, info) => {
+        if(err){
+            res.status(400)
+        }else{
+            res.status(201).json({
+                token
+            })
+        }
     })
-
-    res.json({token})
-
 }
 
 // Login
