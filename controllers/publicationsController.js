@@ -5,9 +5,9 @@ const getAllRoutes = (req, res) =>  {
         if (err){
             res.sendStatus(400)
         }else{
-            res.status(200).json({
-                data: info,
-            });
+            res.status(200).json(
+                info,
+            );
         }
     })
 }
@@ -17,9 +17,9 @@ const getRoute = (req, res) => {
         if(err){
             res.sendStatus(400)
         }else{
-            res.status(200).json({
-                data: info
-            })
+            res.status(200).json(
+               info
+            )
         }
     })
 }
@@ -29,9 +29,9 @@ const deleteRoute = (req, res) => {
         if(err){
             res.sendStatus(400)
         }else{
-            res.status(201).json({
-                data: info
-            })
+            res.status(201).json(
+                 info
+            )
         }
     })
 }
@@ -54,9 +54,9 @@ const createRoute = (req, res) => {
         if(err){
             res.sendStatus(400)
         }else{
-            res.status(201).json({
-                data: info
-            })
+            res.status(201).json( 
+                info
+            )
         }
     })
 }

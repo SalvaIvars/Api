@@ -47,9 +47,9 @@ const signUp = async (req, res) => {
         if(err){
             res.sendStatus(400)
         }else{
-            res.status(201).json({
+            res.status(201).json(
                 token
-            })
+            )
         }
     })
 }
@@ -81,7 +81,7 @@ const signIn = async (req, res) => {
             {expiresIn:'1d' }
         )
 
-        res.json({accessToken})
+        res.json(accessToken)
     }else{
         res.status(401).json({
             message: 'User/Password incorrect'

@@ -6,9 +6,9 @@ const getAllUsers = (req,res) => {
         if(error){
             res.sendStatus(400)
         }else{
-            res.status(200).json({
-                data:info
-            })
+            res.status(200).json(
+               info
+            )
         }
     })
 }
@@ -18,9 +18,9 @@ const getUser = (req,res) => {
         if(err){
             res.sendStatus(400)
         }else{
-            res.status(200).json({
-                data: info,
-            })
+            res.status(200).json(
+                info
+            )
         }
     })
 }
@@ -44,9 +44,9 @@ const deleteUser = (req, res) => {
         if(err){
             res.status(400)
         }else{
-            res.status(200).json({
-                data: info
-            })
+            res.status(200).json(
+                info
+            )
         }
     })
 }
