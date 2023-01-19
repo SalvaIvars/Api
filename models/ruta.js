@@ -10,13 +10,17 @@ let rutaSchema = new mongoose.Schema({
     },
     nombre: {
         type: String,
+        trim:true,
+        required: true,
     },
     categoria: {
         type: String,
+        trim:true,
         default: 'escalada',
     },
     distancia: {
         type: Number,
+        required: true,
     },
     dificultad: {
         type: String,
@@ -25,19 +29,21 @@ let rutaSchema = new mongoose.Schema({
     },
     duracion: {
         type: Number,
+        required: true,
     },
     descripcion: {
         type: String,
+        required: true,
     },
     foto: {
         type: String,
     },
     privacidad: {
-        type: String ,
+        type: String,
+        default: "public"
     },
     empresa: {
         type: String,
-    
     },
     url: {
         type: String,

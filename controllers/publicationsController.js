@@ -3,11 +3,9 @@ const rutaSchema = require("../models/ruta")
 const getAllRoutes = (req, res) =>  {
     rutaSchema.find((err, info) => {
         if (err){
-            // TODO
-            res.status(400)
+            res.sendStatus(400)
         }else{
             res.status(200).json({
-                status: 'ok',
                 data: info,
             });
         }
@@ -17,11 +15,9 @@ const getAllRoutes = (req, res) =>  {
 const getRoute = (req, res) => {
     rutaSchema.findById(req.params.id, (err, info) => {
         if(err){
-            // TODO
-            res.status(400)
+            res.sendStatus(400)
         }else{
             res.status(200).json({
-                status: 'ok',
                 data: info
             })
         }
@@ -31,10 +27,9 @@ const getRoute = (req, res) => {
 const deleteRoute = (req, res) => {
     rutaSchema.findByIdAndRemove(req.params.id, (err, info) => {
         if(err){
-            res.status(400)
+            res.sendStatus(400)
         }else{
-            res.status(200).json({
-                status: 'ok',
+            res.status(201).json({
                 data: info
             })
         }
@@ -57,11 +52,9 @@ const createRoute = (req, res) => {
     })
     rutaGuardar.save((err, info) =>{
         if(err){
-
-            res.status(400)
+            res.sendStatus(400)
         }else{
-            res.status(200).json({
-                status: 'ok',
+            res.status(201).json({
                 data: info
             })
         }
@@ -71,7 +64,7 @@ const createRoute = (req, res) => {
 const updateRoute = (req, res) => {
     rutaSchema.findByIdAndUpdate(req.params.id, req.body, (err, info) =>{
         if(err){
-            res.status(400)
+            res.sendStatus(400)
         }else{
             res.status(200).json({
                 status: 'ok',

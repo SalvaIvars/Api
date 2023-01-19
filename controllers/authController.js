@@ -1,6 +1,7 @@
 const Usuario = require("../models/usuarios")
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
+require('dotenv').config()
  
 // register
 const signUp = async (req, res) => { 
@@ -10,7 +11,7 @@ const signUp = async (req, res) => {
 
     const duplicate = await Usuario.findOne({"nombre":nombre}, (err, info) => {
         if(err){
-            res.status(400)
+            res.sendStatus(400)
         }else{ 
             return info
         }
@@ -35,16 +36,16 @@ const signUp = async (req, res) => {
     })
 
     const token = jwt.sign({     
-        "nombre": foundUser.nombre,
-        "rol": foundUser.rol
+        "nombre": usuarioGuardar.nombre,
+        "rol": usuarioGuardar.rol
         },
-        'secretkey', // process.env.ACCESS_TOKEN_SECRET
+        process.env.ACCESS_TOKEN_SECRET, 
         {expiresIn:'1d' }
     )
 
     usuarioGuardar.save((err, info) => {
         if(err){
-            res.status(400)
+            res.sendStatus(400)
         }else{
             res.status(201).json({
                 token
@@ -61,7 +62,7 @@ const signIn = async (req, res) => {
 
     const foundUser = await Usuario.findOne({"nombre":nombre}, (err, info) => {
         if(err){
-            res.status(400)
+            res.sendStatus(400)
         }else{ 
             return info
         }
@@ -76,16 +77,10 @@ const signIn = async (req, res) => {
                 "nombre": foundUser.nombre,
                 "rol": foundUser.rol
             },
-            'secretkey', // process.env.ACCESS_TOKEN_SECRET
+            process.env.ACCESS_TOKEN_SECRET,
             {expiresIn:'1d' }
         )
-        const refreshToken = jwt.sign({
-            "nombre": foundUser.nombre,
-            "rol": foundUser.rol
-            },
-            'secretkey', // process.env.REFRESH_TOKEN_SECRET
-            {expiresIn:'1d' }
-        )
+
         res.json({accessToken})
     }else{
         res.status(401).json({

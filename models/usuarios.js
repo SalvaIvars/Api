@@ -2,30 +2,37 @@ const mongoose = require('mongoose');
 
 let usuarioSchema = new mongoose.Schema({
     id_usuario: {
-        type: String
+        type: String,
+        trim: true,
+        required: true,
     },
     nombre:{
         type: String,
+        trim: true,
+        required: true,
     },
     apellidos:{
         type: String,
     },
     email:{
         type: String,
-        unique: true
+        unique: true,
+        required: true,
     },
     fecha:{
         type: String,
     },
     nick:{
         type: String,
+        trim: true,
     },
     password:{        
         type: String,
+        required: true,
     },
-    siguiendo:{
+    siguiendo:[{
         type: String,
-    },
+    }],
     foto:{
         type: String,
     },
@@ -34,6 +41,7 @@ let usuarioSchema = new mongoose.Schema({
     },
     rol:{
         type: String,
+        default: "user"
     },
 })  
 

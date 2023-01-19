@@ -3,11 +3,9 @@ const comentario = require("../models/comentarios")
 const getComments = (req, res) =>  {
     comentario.find((err, info) => {
         if (err){
-            // TODO
-            res.status(400)
+            res.sendStatus(400)
         }else{
             res.status(200).json({
-                status: 'ok',
                 data: info,
             });
         }
@@ -17,11 +15,9 @@ const getComments = (req, res) =>  {
 const getComment = (req, res) => {
     comentario.findById(req.params.id, (err, info) => {
         if(err){
-            // TODO
-            res.status(400)
+            res.sendStatus(400)
         }else{
             res.status(200).json({
-                status: 'ok',
                 data: info
             })
         }
@@ -31,7 +27,6 @@ const getComment = (req, res) => {
 const deleteComment = (req, res) => {
     comentario.findByIdAndRemove(req.params.id, (err, info) => {
         if(err){
-            // TODO
             res.status(400)
         }else{
             res.status(200).json({
@@ -54,8 +49,7 @@ const createComment = (req, res) => {
             // TODO
             res.status(400)
         }else{
-            res.status(200).json({
-                status: 'ok',
+            res.status(201).json({
                 data: info
             })
         }
