@@ -39,16 +39,16 @@ const updateUser = (req, res) => {
 
 }
 
-const deleteUser = (req, res) => {
-    Usuario.findByIdAndRemove(req.params.id, (err, info) => {
+const deleteUser = async (req, res) => {
+    await Usuario.findByIdAndDelete(req.params.id,  (err, info) => {
         if(err){
             res.status(400)
-        }else{
+        }else{  
             res.status(200).json(
                 info
             )
         }
-    })
+    }).clone()
 }
 
 module.exports = {
