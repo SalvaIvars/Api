@@ -25,7 +25,6 @@ const getUser = (req,res) => {
     })
 }
 
-
 const updateUser = (req, res) => {
         Usuario.findByIdAndUpdate(req.params.id, req.body, (err, info) =>{
         if(err){

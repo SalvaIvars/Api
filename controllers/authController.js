@@ -64,7 +64,7 @@ const signIn = async (req, res) => {
         if(err){
             res.sendStatus(400)
         }else{ 
-            return info
+            return info 
         }
     }).clone()
 
@@ -80,7 +80,6 @@ const signIn = async (req, res) => {
             process.env.ACCESS_TOKEN_SECRET,
             {expiresIn:'1d' }
         )
-
         res.json(accessToken)
     }else{
         res.status(401).json({
