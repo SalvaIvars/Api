@@ -80,6 +80,15 @@ const signIn = async (req, res) => {
             process.env.ACCESS_TOKEN_SECRET,
             {expiresIn:'1d' }
         )
+        const refreshToken = jwt.sign({
+            "nombre": foundUser.nombre,
+            "rol": foundUser.rol
+        },
+        process.env.REFRESH_TOKEN_SECRET,
+        {expiresIn:'1d' }
+    )
+
+        // Guardar refreshToken en la base de datos
         res.json(accessToken)
     }else{
         res.status(401).json({
