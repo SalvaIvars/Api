@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 D:\Módulo Informática\2do Año\7).Proyecto Intermodular\Proyecto\WPF\Intermodular_Web\App.xaml
-6-569828613
+6-1273431658
 
-12-1506742303
+141107607437
 13-1505183044
-AñadirRuta.xaml;Home.xaml;Login.xaml;Registro.xaml;VisualizarUsuarioPropio.xaml;VisualizarUsuarioAjeno.xaml;
+View\AñadirRuta.xaml;View\Home.xaml;View\Login.xaml;View\Registro.xaml;View\VisualizarUsuarioAjeno.xaml;View\VisualizarUsuarioPropio.xaml;
 
-False
+True
 

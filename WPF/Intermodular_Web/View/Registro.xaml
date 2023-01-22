@@ -1,0 +1,232 @@
+﻿<Window x:Class="Intermodular_Web.Registro"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Intermodular_Web"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen" 
+        WindowStyle="None"
+        AllowsTransparency="True" 
+        ResizeMode="NoResize"
+        WindowState="Maximized">
+    <Window.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#3AA9AD" Offset="0" />
+            <GradientStop Color="#3AADA1" Offset="1" />
+        </LinearGradientBrush>
+    </Window.Background>
+
+    <Grid>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" >
+            <Image Cursor="Hand" HorizontalAlignment="Right" Source="..\Resources\Imagenes\minimize.png" Grid.Column="1" Height="35" Panel.ZIndex="1" MouseUp="Image_MouseUp_1"/>
+            <Image Cursor="Hand" HorizontalAlignment="Right" Source="..\Resources\Imagenes\close.png" Grid.Column="1" Height="35" Panel.ZIndex="1" MouseUp="Image_MouseUp"/>
+        </StackPanel>
+
+        <Border Grid.Column="1" Grid.Row="1" Background="AliceBlue" CornerRadius="0" Margin="0,50,0,50" BorderThickness="5" BorderBrush="DarkSeaGreen">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.65*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1.5*"></RowDefinition>
+                    <RowDefinition Height="2*"></RowDefinition>
+                </Grid.RowDefinitions>
+                
+                <StackPanel Grid.Column="0" Orientation="Vertical" VerticalAlignment="Top" Margin="25,0,10,0">
+                    <Label FontSize="20" Margin="0,20,0,0">Nombre:</Label>
+                </StackPanel>
+
+                <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Vertical" VerticalAlignment="Top" Margin="25,0,15,0">
+                    <Label FontSize="20" Margin="0,20,0,0">Apellidos:</Label>
+                </StackPanel>
+
+                <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Top" Margin="25,0,15,0">
+                    <Label FontSize="20" Margin="0,20,0,0">Email:</Label>
+                </StackPanel>
+
+                <StackPanel Grid.Column="0" Grid.Row="3" Orientation="Vertical" VerticalAlignment="Top" Margin="25,0,15,0">
+                    <Label FontSize="20" Margin="0,20,0,0">Fecha de Nacimiento:</Label>
+                </StackPanel>
+
+                <StackPanel Grid.Column="0" Grid.Row="4" Orientation="Vertical" VerticalAlignment="Top" Margin="25,0,15,0">
+                    <Label FontSize="20" Margin="0,20,0,0">Nick:</Label>
+                </StackPanel>
+
+                <StackPanel Grid.Column="0" Grid.Row="5" Orientation="Vertical" VerticalAlignment="Top" Margin="25,0,15,0">
+                    <Label FontSize="20" Margin="0,20,0,0">Contraseña:</Label>
+                </StackPanel>
+
+                <StackPanel Grid.Column="0" Grid.Row="6" Orientation="Vertical" VerticalAlignment="Center" Margin="25,0,15,0">
+                    <Label FontSize="20" Margin="0,20,0,0">Imagen de Perfil:</Label>
+                </StackPanel>
+
+                
+                
+                
+                <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment ="Top" Margin="20,0,20,0">
+
+                    <Border Name ="BordeTextoNombre" Height="50" BorderBrush="Silver" BorderThickness="2" CornerRadius="4" Margin="0,15,0,0">
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"></ColumnDefinition>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+                            <Image Width="25" Height="25" Source="..\Resources/Imagenes/nick.png"></Image>
+
+                            <TextBox Name="TextoNombre" Foreground="Silver" Background="AliceBlue" Grid.Column="1" Text="" VerticalAlignment="Center" BorderThickness="0" FontWeight="SemiBold" GotFocus="TextoNombre_GotFocus" LostFocus="TextoNombre_LostFocus"/>
+
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Vertical" VerticalAlignment ="Top" Margin="20,0,20,0">
+
+                    <Border Height="50" BorderBrush="Silver" BorderThickness="2" CornerRadius="4" Margin="0,15,0,0">
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"></ColumnDefinition>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+                            <Image Width="25" Height="25" Source="..\Resources/Imagenes/apellidos.png"></Image>
+
+                            <TextBox Foreground="Silver" Background="AliceBlue" Grid.Column="1" Text="" VerticalAlignment="Center" BorderThickness="0" FontWeight="SemiBold"></TextBox>
+
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+
+                <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Vertical" VerticalAlignment ="Top" Margin="20,0,20,0">
+
+                    <Border Height="50" BorderBrush="Silver" BorderThickness="2" CornerRadius="4" Margin="0,15,0,0">
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"></ColumnDefinition>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+                            <Image Width="25" Height="25" Source="..\Resources/Imagenes/email.png"></Image>
+
+                            <TextBox Foreground="Silver" Background="AliceBlue" Grid.Column="1" Text="" VerticalAlignment="Center" BorderThickness="0" FontWeight="SemiBold"></TextBox>
+
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Vertical" VerticalAlignment ="Top" Margin="20,0,20,0">
+
+                    <Border Height="50" BorderBrush="Silver" BorderThickness="2" CornerRadius="4" Margin="0,15,0,0">
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"></ColumnDefinition>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+                            <Image Width="25" Height="25" Source="..\Resources/Imagenes/fecha.png"></Image>
+
+                            <TextBox Foreground="Silver" Background="AliceBlue" Grid.Column="1" Text="" VerticalAlignment="Center" BorderThickness="0" FontWeight="SemiBold" ></TextBox>
+                            
+
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Vertical" VerticalAlignment ="Top" Margin="20,0,20,0">
+
+                    <Border Height="50" BorderBrush="Silver" BorderThickness="2" CornerRadius="4" Margin="0,15,0,0">
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"></ColumnDefinition>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+                            <Image Width="25" Height="25" Source="..\Resources/Imagenes/user.png"></Image>
+
+                            <TextBox Foreground="Silver" Background="AliceBlue" Grid.Column="1" Text="" VerticalAlignment="Center" BorderThickness="0" FontWeight="SemiBold"></TextBox>
+
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Grid.Row="5" Orientation="Vertical" VerticalAlignment ="Top" Margin="20,0,20,0">
+
+                    <Border Height="50" BorderBrush="Silver" BorderThickness="2" CornerRadius="4" Margin="0,15,0,0">
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"></ColumnDefinition>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                                <ColumnDefinition Width="50"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+
+                            <Image Width="25" Height="25" Source="..\Resources/Imagenes/lock.png"></Image>
+
+                            <TextBox Foreground="Silver" Background="AliceBlue" Grid.Column="1" Text="" VerticalAlignment="Center" BorderThickness="0" FontWeight="SemiBold"></TextBox>
+
+                            <Button Cursor="Hand" x:Name="BotonMostrarContra" Grid.Column="2" Background="Transparent" BorderThickness="0" BorderBrush="Transparent" Height="25" Width="25">
+                                <Image Source="..\Resources\Imagenes\ojo.png"/>
+                            </Button>
+
+
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+
+                <DockPanel Name ="CuadroImagenVacia" Grid.Column="1" Grid.Row="6" VerticalAlignment ="Stretch" Margin="20,0,20,0" >
+
+                    <Border BorderBrush="Silver" Width="auto" BorderThickness="2" CornerRadius="4">
+                        <Border  Cursor="Hand" Height="50" Width="50" CornerRadius="10" Background="Silver" BorderThickness="1" BorderBrush="DarkSlateGray" HorizontalAlignment="Center" VerticalAlignment="Center" MouseUp="Border_MouseUp">
+                            <Label FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                +
+                            </Label>
+                        </Border>
+                    </Border>
+                </DockPanel>
+
+                <DockPanel Name ="CuadroImagen" Grid.Column="1" Grid.Row="6" VerticalAlignment ="Stretch" Margin="20,0,20,0" Visibility="Collapsed">
+                    <Border BorderBrush="Silver" BorderThickness="2" CornerRadius="4">
+                        <Image Name = "ImagenUsuario" Height="150" Width="150" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </DockPanel>
+
+                <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="7" Orientation="Vertical" VerticalAlignment ="Center" Margin="30,0,30,0">
+
+                    <Button Cursor="Hand" Background="DodgerBlue" BorderThickness="0" VerticalAlignment="Center" Content="Registrarse" Foreground="White" Height="50" Click="Button_Click"/>
+                    
+                </StackPanel>
+
+            </Grid>
+
+        </Border>
+    </Grid>
+</Window>

@@ -55,24 +55,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AñadirRuta.xaml.cs">
+    <Compile Include="View\AñadirRuta.xaml.cs">
       <DependentUpon>AñadirRuta.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Registro.xaml.cs">
+    <Compile Include="API\LlamadasAPI.cs" />
+    <Compile Include="Model\Usuario.cs" />
+    <Compile Include="View\Registro.xaml.cs">
       <DependentUpon>Registro.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Utils.cs" />
-    <Compile Include="VisualizarUsuarioPropio.xaml.cs">
-      <DependentUpon>VisualizarUsuarioPropio.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="VisualizarUsuarioAjeno.xaml.cs">
+    <Compile Include="Utils\Utils.cs" />
+    <Compile Include="View\VisualizarUsuarioAjeno.xaml.cs">
       <DependentUpon>VisualizarUsuarioAjeno.xaml</DependentUpon>
     </Compile>
-    <Page Include="AñadirRuta.xaml">
+    <Compile Include="View\VisualizarUsuarioPropio.xaml.cs">
+      <DependentUpon>VisualizarUsuarioPropio.xaml</DependentUpon>
+    </Compile>
+    <Page Include="View\AñadirRuta.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Home.xaml">
+    <Page Include="View\Home.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -80,28 +82,28 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Home.xaml.cs">
+    <Compile Include="View\Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
     </Compile>
-    <Page Include="Login.xaml">
+    <Page Include="View\Login.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Registro.xaml">
+    <Page Include="View\Registro.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="VisualizarUsuarioPropio.xaml">
+    <Page Include="View\VisualizarUsuarioAjeno.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="VisualizarUsuarioAjeno.xaml">
+    <Page Include="View\VisualizarUsuarioPropio.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Login.xaml.cs">
+    <Compile Include="View\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -140,6 +142,24 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Imagenes\ojo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Imagenes\close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Imagenes\minimize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Imagenes\email.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Imagenes\nick.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Imagenes\apellidos.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Imagenes\fecha.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
