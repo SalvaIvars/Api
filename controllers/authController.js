@@ -21,8 +21,14 @@ const signUp = async (req, res) => {
 
     const hashedPwd = await bcrypt.hash(password, 10)
 
-    const usuarioGuardar = await new Usuario({
-        id_usuario: req.body.id_usuario,
+    const id_usuario = await Usuario.find().sort({"id_usuario":-1}).limit(1)
+
+    if(id_usuario.id_usuario == undefined){
+        id_usuario.id_usuario=0
+    }
+
+    const usuarioGuardar =  await new Usuario({
+        id_usuario: id_usuario.id_usuario+1,
         nombre: req.body.nombre,
         apellidos: req.body.apellidos,
         email: req.body.email,

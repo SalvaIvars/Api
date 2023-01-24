@@ -1,8 +1,8 @@
 const Usuario = require("../models/usuarios")
 const bcrypt = require('bcryptjs')
 
-const getAllUsers = (req,res) => {
-    Usuario.find((error, info) => {
+const getAllUsers = async (req,res) => {
+    await Usuario.find((error, info) => {
         if(error){
             res.sendStatus(400)
         }else{
@@ -10,11 +10,11 @@ const getAllUsers = (req,res) => {
                info
             )
         }
-    })
+    }).clone()
 }
 
-const getUser = (req,res) => {
-    Usuario.findById(req.params.id, (err, info) => {
+const getUser = async (req,res) => {
+    await Usuario.findById(req.params.id, (err, info) => {
         if(err){
             res.sendStatus(400)
         }else{
@@ -25,8 +25,8 @@ const getUser = (req,res) => {
     })
 }
 
-const updateUser = (req, res) => {
-        Usuario.findByIdAndUpdate(req.params.id, req.body, (err, info) =>{
+const updateUser = async (req, res) => {
+        await Usuario.findByIdAndUpdate(req.params.id, req.body, (err, info) =>{
         if(err){
             res.sendStatus(400)
         }else{

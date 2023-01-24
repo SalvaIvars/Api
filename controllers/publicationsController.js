@@ -1,7 +1,7 @@
 const rutaSchema = require("../models/ruta")
 
-const getAllRoutes = (req, res) =>  {
-    rutaSchema.find((err, info) => {
+const getAllRoutes = async (req, res) =>  {
+    await rutaSchema.find((err, info) => {
         if (err){
             res.sendStatus(400)
         }else{
@@ -9,11 +9,11 @@ const getAllRoutes = (req, res) =>  {
                 info,
             );
         }
-    })
+    }).clone()
 }
 
-const getRoute = (req, res) => {
-    rutaSchema.findById(req.params.id, (err, info) => {
+const getRoute = async (req, res) => {
+    await rutaSchema.findById(req.params.id, (err, info) => {
         if(err){
             res.sendStatus(400)
         }else{
@@ -24,8 +24,8 @@ const getRoute = (req, res) => {
     })
 }
 
-const deleteRoute = (req, res) => {
-    rutaSchema.findByIdAndRemove(req.params.id, (err, info) => {
+const deleteRoute = async (req, res) => {
+    await rutaSchema.findByIdAndRemove(req.params.id, (err, info) => {
         if(err){
             res.sendStatus(400)
         }else{
@@ -35,8 +35,16 @@ const deleteRoute = (req, res) => {
         }
     })
 }
-const createRoute = (req, res) => {
+const createRoute = async (req, res) => {
+    const id_publicacion = await rutaSchema.find().sort({"id_publicacion":-1}).limit(1)
+
+
+    if(id_publicacion == undefined){
+        id_publicacion.id_publicacion = 0;
+    }
+
     const rutaGuardar = new rutaSchema({
+        id_publicacion: id_publicacion.id_publicacion+1,
         id_usuario: req.body.id_usuario,
         fecha: req.body.fecha,
         nombre: req.body.nombre,
@@ -47,10 +55,9 @@ const createRoute = (req, res) => {
         descripcion: req.body.descripcion, 
         foto: req.body.fotos,
         privacidad: req.body.privacidad,
-        empresa: req.body.empresa,
-        url: req.body.url,
     })
-    rutaGuardar.save((err, info) =>{
+    
+    await rutaGuardar.save((err, info) =>{
         if(err){
             res.sendStatus(400)
         }else{
@@ -61,8 +68,8 @@ const createRoute = (req, res) => {
     })
 }
 
-const updateRoute = (req, res) => {
-    rutaSchema.findByIdAndUpdate(req.params.id, req.body, (err, info) =>{
+const updateRoute = async (req, res) => {
+    await rutaSchema.findByIdAndUpdate(req.params.id, req.body, (err, info) =>{
         if(err){
             res.sendStatus(400)
         }else{

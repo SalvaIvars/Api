@@ -1,8 +1,12 @@
 const mongoose = require('mongoose');
 
 let rutaSchema = new mongoose.Schema({
+    id_publicacion:{
+      type: Number,
+      required: true,  
+    },
     id_usuario: {
-        type: String,
+        type: Number,
         required: true,
     },
     fecha: {
@@ -41,12 +45,6 @@ let rutaSchema = new mongoose.Schema({
     privacidad: {
         type: String,
         default: "public"
-    },
-    empresa: {
-        type: String,
-    },
-    url: {
-        type: String,
     }
 });
 
