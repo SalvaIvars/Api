@@ -51,11 +51,12 @@ const signUp = async (req, res) => {
 
     usuarioGuardar.save((err, info) => {
         if(err){
-            res.sendStatus(400)
+            res.sendStatus(400).send({status:'400', data:error})
         }else{
-            res.status(201).json(
-                token
-            )
+            res.status(201).send({
+                status:'201',
+                data: token,
+            })
         }
     })
 }
@@ -68,7 +69,7 @@ const signIn = async (req, res) => {
 
     const foundUser = await Usuario.findOne({"nombre":nombre}, (err, info) => {
         if(err){
-            res.sendStatus(400)
+            res.sendStatus(400).send({status:'400', data:error})
         }else{ 
             return info 
         }
@@ -95,7 +96,10 @@ const signIn = async (req, res) => {
     )
 
         // Guardar refreshToken en la base de datos
-        res.json(accessToken)
+        res.status(201).send({
+            status:'201',
+            data: accessToken,
+        })
     }else{
         res.status(401).json({
             message: 'User/Password incorrect'

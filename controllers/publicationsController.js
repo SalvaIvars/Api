@@ -3,11 +3,12 @@ const rutaSchema = require("../models/ruta")
 const getAllRoutes = async (req, res) =>  {
     await rutaSchema.find((err, info) => {
         if (err){
-            res.sendStatus(400)
+            res.sendStatus(400).send({status:'400', data:error})
         }else{
-            res.status(200).json(
-                info,
-            );
+            res.status(200).send({
+                status:'200',
+                data: info
+            })
         }
     }).clone()
 }
@@ -15,11 +16,12 @@ const getAllRoutes = async (req, res) =>  {
 const getRoute = async (req, res) => {
     await rutaSchema.findById(req.params.id, (err, info) => {
         if(err){
-            res.sendStatus(400)
+            res.sendStatus(400).send({status:'400', data:error})
         }else{
-            res.status(200).json(
-               info
-            )
+            res.status(200).send({
+                status:'200',
+                data: info
+            })
         }
     })
 }
@@ -27,11 +29,12 @@ const getRoute = async (req, res) => {
 const deleteRoute = async (req, res) => {
     await rutaSchema.findByIdAndRemove(req.params.id, (err, info) => {
         if(err){
-            res.sendStatus(400)
+            res.sendStatus(400).send({status:'400', data:error})
         }else{
-            res.status(201).json(
-                 info
-            )
+            res.status(201).send({
+                status:'201',
+                data: info
+            })
         }
     })
 }
@@ -59,11 +62,12 @@ const createRoute = async (req, res) => {
     
     await rutaGuardar.save((err, info) =>{
         if(err){
-            res.sendStatus(400)
+            res.sendStatus(400).send({status:'400', data:error})
         }else{
-            res.status(201).json( 
-                info
-            )
+            res.status(201).send({
+                status:'201',
+                data: info
+            })
         }
     })
 }
@@ -71,10 +75,11 @@ const createRoute = async (req, res) => {
 const updateRoute = async (req, res) => {
     await rutaSchema.findByIdAndUpdate(req.params.id, req.body, (err, info) =>{
         if(err){
-            res.sendStatus(400)
+            res.sendStatus(400).send({status:'400', data:error})
         }else{
-            res.status(200).json({
-                status: 'ok',
+            res.status(200).send({
+                status:'200',
+                data: info
             })
         }
     })
