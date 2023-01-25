@@ -128,11 +128,7 @@ const newAccessToken = async (req, res) => {
     const currentRefreshToken = await validateRefreshToken(req.body.refreshToken);
     const accessToken = createAccessToken(currentRefreshToken.id)
 
-    res.status(201).send({
-        status:'201',
-        accessToken: accessToken,
-        refreshToken: req.bod.refreshToken,
-    })
+    return accessToken
 }
 
 function createAccessToken(nombre, rol){
@@ -172,17 +168,17 @@ const validateRefreshToken = async (token) => {
     if(tokenExists){
         return decodedToken
     }else{
-        console.log(err)
+        console.log("vuelve a iniciar sesión")
     }
 }
 
-const logout = async (req, res, session) => {
+const logout = async (req, res) => {
     const refreshToken = await validateRefreshToken(req.body.refreshToken);
     await models.RefreshToken.deleteOne({_id: refreshToken.tokenId});
     return {success: true};
 }
 
-const logoutAll = async (req, res, session) => {
+const logoutAll = async (req, res) => {
     const refreshToken = await validateRefreshToken(req.body.refreshToken);
     await models.RefreshToken.deleteMany({owner: refreshToken.id});
     return {success: true};

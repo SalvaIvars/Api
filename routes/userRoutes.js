@@ -1,7 +1,8 @@
 const express = require("express");
 const publicationsController = require("../controllers/userController");
-const router = express.Router();
 const verify = require('../middleware/verify')
+const router = express.Router();
+
 router
    .get("/", verify.verifyJWT,publicationsController.getAllUsers)
    .get("/:id", verify.verifyJWT,publicationsController.getUser)
