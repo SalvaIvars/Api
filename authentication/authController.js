@@ -92,7 +92,7 @@ const signIn = async (req, res) => {
 
         const accessToken = createAccessToken(foundUser.nombre, foundUser.rol)
         const refreshToken = createRefreshToken(foundUser.nombre, foundUser.rol,refreshTokenDoc.id)
-        console.log(" a " + accessToken)
+
         res.status(201).send({
             status:'201',
             accessToken: accessToken,
