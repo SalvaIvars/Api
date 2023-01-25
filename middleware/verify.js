@@ -14,6 +14,25 @@ const verifyJWT =  (req, res, next) => {
             }else{
                 req.nombre = decoded.nombre
                 req.rol = decoded.rol
+                next()
+            }
+        }
+    )
+}
+
+const verifyJWTAdmin = (req, res, next) => {
+    const authHeader = req.headers['authorization']
+    if(!authHeader) return res.sendStatus(401)
+    const token = authHeader.split(' ')[1];
+    jwt.verify(
+        token,
+        process.env.ACCESS_TOKEN_SECRET,
+        (err, decoded) => {
+            if(err){
+                return res.sendStatus(403)
+            }else{
+                req.nombre = decoded.nombre
+                req.rol = decoded.rol
                 if(req.rol != "admin"){
                     return res.sendStatus(401)
                 }
@@ -23,4 +42,7 @@ const verifyJWT =  (req, res, next) => {
     )
 }
 
-module.exports = verifyJWT
+module.exports = {
+    verifyJWT,
+    verifyJWTAdmin 
+}
