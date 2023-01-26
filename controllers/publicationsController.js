@@ -1,89 +1,85 @@
 const rutaSchema = require("../models/ruta")
+const publicationService = require("../service/publicationService")
 
 const getAllRoutes = async (req, res) =>  {
-    await rutaSchema.find((err, info) => {
-        if (err){
-            res.sendStatus(400).send({status:'400', data:error})
-        }else{
-            res.status(200).send({
-                status:'200',
-                data: info
-            })
-        }
-    }).clone()
+    try{
+        const response = await publicationService.getAllRoutes()
+        res.status(200).send({
+            status:'200',
+            data: response
+        })
+    }catch (e){
+        errorHandler(e, req, res)
+    }
 }
 
 const getRoute = async (req, res) => {
-    await rutaSchema.findById(req.params.id, (err, info) => {
-        if(err){
-            res.sendStatus(400).send({status:'400', data:error})
-        }else{
-            res.status(200).send({
-                status:'200',
-                data: info
-            })
-        }
-    })
-}
-
-const deleteRoute = async (req, res) => {
-    await rutaSchema.findByIdAndRemove(req.params.id, (err, info) => {
-        if(err){
-            res.sendStatus(400).send({status:'400', data:error})
-        }else{
-            res.status(201).send({
-                status:'201',
-                data: info
-            })
-        }
-    })
-}
-const createRoute = async (req, res) => {
-    const id_publicacion = await rutaSchema.find().sort({"id_publicacion":-1}).limit(1)
-
-
-    if(id_publicacion == undefined){
-        id_publicacion.id_publicacion = 0;
+    try{
+        const response = await publicationService.getRoute(req.params.id)
+        res.status(200).send({
+            status:'200',
+            data: response
+        })
+    }catch (e){
+        errorHandler(e, req, res)
     }
-
-    const rutaGuardar = new rutaSchema({
-        id_publicacion: id_publicacion.id_publicacion+1,
-        id_usuario: req.body.id_usuario,
-        fecha: req.body.fecha,
-        nombre: req.body.nombre,
-        categoria: req.body.categoria,
-        distancia: req.body.distancia,
-        dificultad: req.body.dificultad,
-        duracion: req.body.duracion,
-        descripcion: req.body.descripcion, 
-        foto: req.body.fotos,
-        privacidad: req.body.privacidad,
-    })
-    
-    await rutaGuardar.save((err, info) =>{
-        if(err){
-            res.sendStatus(400).send({status:'400', data:error})
-        }else{
-            res.status(201).send({
-                status:'201',
-                data: info
-            })
-        }
-    })
 }
 
 const updateRoute = async (req, res) => {
-    await rutaSchema.findByIdAndUpdate(req.params.id, req.body, (err, info) =>{
-        if(err){
-            res.sendStatus(400).send({status:'400', data:error})
-        }else{
-            res.status(200).send({
-                status:'200',
-                data: info
-            })
-        }
-    })
+    try{
+        const response = await publicationService.updateRoute(req.params.id, req.body)
+        res.status(200).send({
+            status:'200',
+            data: response
+        })
+    }catch (e){
+        errorHandler(e, req, res)
+    }
 }
+
+const deleteRoute = async (req, res) => {
+    try{
+        const response = await publicationService.deleteRoute(req.params.id)
+        res.status(200).send({
+            status:'200',
+            data: response
+        })
+    }catch (e){
+        errorHandler(e, req, res)
+    }
+}
+const createRoute = async (req, res) => {
+    try{
+        const id_publicacion = await publicationService.obtainIdPublicacion()
+
+        if(id_publicacion == undefined){
+            id_publicacion.id_publicacion = 0;
+        }
+    
+        const route = new rutaSchema({
+            id_publicacion: id_publicacion.id_publicacion+1,
+            id_usuario: req.body.id_usuario,
+            fecha: req.body.fecha,
+            nombre: req.body.nombre,
+            categoria: req.body.categoria,
+            distancia: req.body.distancia,
+            dificultad: req.body.dificultad,
+            duracion: req.body.duracion,
+            descripcion: req.body.descripcion, 
+            foto: req.body.fotos,
+            privacidad: req.body.privacidad,
+        })
+
+        const response = await publicationService.createRoute(route)
+        res.status(200).send({
+            status:'200',
+            data: response
+        })
+    }catch (e){
+        errorHandler(e, req, res)
+    }
+}
+
 
 module.exports = {
     getAllRoutes,

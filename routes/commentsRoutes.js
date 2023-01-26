@@ -4,7 +4,7 @@ const verify = require('../middleware/verify')
 const router = express.Router()
 
 router
-    .get('/', verify.verifyJWT,commentsController.getComments)
+    .get('/', verify.verifyJWT,commentsController.getAllComments)
     .get('/:id', verify.verifyJWT,commentsController.getComment)
     .delete('/:id', verify.verifyJWTAdmin,commentsController.deleteComment)
     .post('/', verify.verifyJWTAdmin,commentsController.createComment)

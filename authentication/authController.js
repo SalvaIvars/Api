@@ -1,5 +1,4 @@
 const Usuario = require("../models/usuarios")
-const RefreshToken = require("../models/refreshToken")
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 require('dotenv').config()
@@ -42,23 +41,15 @@ const signUp = async (req, res) => {
         rol: req.body.rol
     })
 
-    const refreshTokenDoc = new RefreshToken({
-        id: userDoc._id,
-    })
-
-    await refreshTokenDoc.save()
-   
-    const refreshToken = createRefreshToken(userDoc.nombre, userDoc.rol, refreshTokenDoc.id)
     const accesToken = createAccessToken(userDoc.nombre, userDoc.rol)
 
     userDoc.save((err, info) => {
         if(err){
-            res.sendStatus(400).send({status:'400', data:error})
+            res.sendStatus(400).send({status:'400', data:err})
         }else{
             res.status(201).send({
                 status:'201',
                 accessToken: accesToken,
-                refreshToken: refreshToken,
             })
         }
     })
@@ -83,20 +74,11 @@ const signIn = async (req, res) => {
     const match = await bcrypt.compare(password, foundUser.password)
 
     if(match){
-
-        const refreshTokenDoc = await new RefreshToken({
-            id: foundUser._id,
-        })
-
-        await refreshTokenDoc.save()
-
         const accessToken = createAccessToken(foundUser.nombre, foundUser.rol)
-        const refreshToken = createRefreshToken(foundUser.nombre, foundUser.rol,refreshTokenDoc.id)
-
+        console.log("access:" + accessToken)
         res.status(201).send({
             status:'201',
             accessToken: accessToken,
-            refreshToken: refreshToken,
         })
     }else{
         res.status(401).json({
@@ -105,31 +87,6 @@ const signIn = async (req, res) => {
     }
 }
 
-const newRefreshToken = async (req, res) => {
-    const currentRefreshToken = await validateRefreshToken(req.body.refreshToken);
-    const refreshTokenDoc =  new RefreshToken({
-        owner: currentRefreshToken.id
-    })
-
-    await refreshTokenDoc.save()
-    await RefreshToken.deleteOne({_ID: currentRefreshToken.id})
-
-    const accessToken = createAccessToken(currentRefreshToken.nombre, currentRefreshToken.rol)
-    const refreshToken = createRefreshToken(currentRefreshToken.nombre, currentRefreshToken.rol,currentRefreshToken.id)
-
-    res.status(201).send({
-        status:'201',
-        accessToken: accessToken,
-        refreshToken: refreshToken,
-    })
-}
-
-const newAccessToken = async (req, res) => {
-    const currentRefreshToken = await validateRefreshToken(req.body.refreshToken);
-    const accessToken = createAccessToken(currentRefreshToken.id)
-
-    return accessToken
-}
 
 function createAccessToken(nombre, rol){
     return accessToken = jwt.sign({
@@ -137,59 +94,11 @@ function createAccessToken(nombre, rol){
         "rol": rol
         },
         process.env.ACCESS_TOKEN_SECRET,
-        {expiresIn:'1200' }
+        {expiresIn:'1d' }
     )
 }
-
-function createRefreshToken(nombre, rol, token){
-    return refreshToken = jwt.sign({
-        "nombre": nombre,
-        "rol": rol,
-        tokenId: token,
-    },
-    process.env.REFRESH_TOKEN_SECRET,
-    {expiresIn:'10000' }
-    )
-}
-
-const validateRefreshToken = async (token) => {
-    const decodeToken = () => {
-        try {
-            return jwt.verify(token, process.env.REFRESH_TOKEN_SECRET)
-        } catch(err){
-            // TODO
-            console.log(err)
-            return err
-        }
-    }
-
-    const decodedToken = decodedToken()
-    const tokenExists = await RefreshToken.exists({_id: decodeToken.id})
-    if(tokenExists){
-        return decodedToken
-    }else{
-        console.log("vuelve a iniciar sesión")
-    }
-}
-
-const logout = async (req, res) => {
-    const refreshToken = await validateRefreshToken(req.body.refreshToken);
-    await RefreshToken.deleteOne({_id: refreshToken.tokenId});
-    return {success: true};
-}
-
-const logoutAll = async (req, res) => {
-    const refreshToken = await validateRefreshToken(req.body.refreshToken);
-    await RefreshToken.deleteMany({owner: refreshToken.id});
-    return {success: true};
-};
-
 
 module.exports = {
     signUp,
     signIn,
-    newRefreshToken,
-    newAccessToken,
-    logout,
-    logoutAll
 }

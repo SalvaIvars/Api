@@ -9,9 +9,5 @@ router
     .post('/signin', authController.signIn)
     .post('/imagen', image.writeImage)
     .get('/imagen', image.readImage)
-    .post('/accesstoken', verify.verifyJWT, authController.newAccessToken)
-    .post('/refreshtoken', verify.verifyJWT, authController.newRefreshToken)
-    .post('/logout', verify.verifyJWT, authController.logout)
-    .post('/logoutAll', verify.verifyJWTAdmin, authController.logoutAll)
 
 module.exports = router;

@@ -1,57 +1,53 @@
-const Usuario = require("../models/usuarios")
-const bcrypt = require('bcryptjs')
+const UserService = require('../service/userService')
+const errorHandler = require('../utils/errorHandler')
+
 
 const getAllUsers = async (req,res) => {
-    await Usuario.find((error, info) => {
-        if(error){
-            res.status(400).send({status:'400', data:error})
-        }else{
-            res.status(200).send({
-                status:'200',
-                data: info
-            })
-        }
-    }).clone()
+    try{
+        const response = await UserService.getAllUsers()
+        res.status(200).send({
+            status:'200',
+            data: response
+        })
+    }catch (e){
+        errorHandler(e, req, res)
+    }
 }
 
 const getUser = async (req,res) => {
-    await Usuario.findById(req.params.id, (err, info) => {
-        if(err){
-            res.status(400).send({status:'400', data:error})
-        }else{
-            res.status(200).send({
-                status:'200',
-                data: info
-            })
-        }
-    })
+    try{
+        const response = await UserService.getUser(req.params.id)
+        res.status(200).send({
+            status:'200',
+            data: response
+        })
+    }catch (e){
+        errorHandler(e, req, res)
+    }
 }
 
 const updateUser = async (req, res) => {
-        await Usuario.findByIdAndUpdate(req.params.id, req.body, (err, info) =>{
-        if(err){
-            res.sendStatus(400).send({status:'400', data:error})
-        }else{
-            res.status(204).send({
-                status:'204',
-                data: info
-            })
-        }
-    })
-
+    try{
+        const response = await UserService.updateUser(req.params.id, req.body)
+        res.status(200).send({
+            status:'200',
+            data: response
+        })
+    }catch (e){
+        errorHandler(e, req, res)
+    }
 }
 
 const deleteUser = async (req, res) => {
-    await Usuario.findByIdAndDelete(req.params.id,  (err, info) => {
-        if(err){
-            res.sendStatus(400).send({status:'400', data:error})
-        }else{  
-            res.status(200).send({
-                status:'200',
-                data: info
-            })
-        }
-    }).clone()
+    try{
+        const response = await UserService.deleteUser(req.params.id)
+        res.status(200).send({
+            status:'200',
+            data: response
+        })
+    }catch (e){
+        errorHandler(e, req, res)
+    }
 }
 
 module.exports = {
