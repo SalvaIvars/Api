@@ -72,7 +72,7 @@ const signIn = async (req, res) => {
 
     const foundUser = await Usuario.findOne({"nombre":nombre}, (err, info) => {
         if(err){
-            res.sendStatus(400).send({status:'400', data:error})
+            res.sendStatus(400).send({status:'400', data:err})
         }else{ 
             return info 
         }
@@ -137,7 +137,7 @@ function createAccessToken(nombre, rol){
         "rol": rol
         },
         process.env.ACCESS_TOKEN_SECRET,
-        {expiresIn:'1d' }
+        {expiresIn:'1200' }
     )
 }
 
@@ -148,7 +148,7 @@ function createRefreshToken(nombre, rol, token){
         tokenId: token,
     },
     process.env.REFRESH_TOKEN_SECRET,
-    {expiresIn:'1d' }
+    {expiresIn:'10000' }
     )
 }
 
@@ -174,13 +174,13 @@ const validateRefreshToken = async (token) => {
 
 const logout = async (req, res) => {
     const refreshToken = await validateRefreshToken(req.body.refreshToken);
-    await models.RefreshToken.deleteOne({_id: refreshToken.tokenId});
+    await RefreshToken.deleteOne({_id: refreshToken.tokenId});
     return {success: true};
 }
 
 const logoutAll = async (req, res) => {
     const refreshToken = await validateRefreshToken(req.body.refreshToken);
-    await models.RefreshToken.deleteMany({owner: refreshToken.id});
+    await RefreshToken.deleteMany({owner: refreshToken.id});
     return {success: true};
 };
 
