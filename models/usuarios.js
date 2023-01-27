@@ -36,9 +36,6 @@ let usuarioSchema = new mongoose.Schema({
     foto:{
         type: String,
     },
-    web:{
-        type: String,
-    },
     rol:{
         type: String,
         default: "user"

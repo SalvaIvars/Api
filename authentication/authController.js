@@ -1,23 +1,24 @@
 const Usuario = require("../models/usuarios")
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
+const errorHandler = require('../helpers/errorHandler')
 require('dotenv').config()
  
 // register
 const signUp = async (req, res) => { 
     const {nombre, password} = req.body
 
-    if(!nombre || !password) return res.status(400).json({message:'Username and password are required.'})
+    if(!nombre || !password) return errorHandler('Username and password are required.', req, res)
 
     const duplicate = await Usuario.findOne({"nombre":nombre}, (err, info) => {
         if(err){
-            res.sendStatus(400)
+            return errorHandler('This name is already used', req, res)
         }else{ 
             return info
         }
     }).clone()
 
-    if(duplicate != null)  return res.status(409).json({message:'Username is allready chosen'})
+    if(duplicate != null)  return errorHandler('Username is allready chosen', req, res)
 
     const hashedPwd = await bcrypt.hash(password, 10)
 
@@ -37,7 +38,6 @@ const signUp = async (req, res) => {
         password:hashedPwd,
         siguiendo: req.body.siguiendo,
         foto: req.body.foto,
-        web: req.body.web,
         rol: req.body.rol
     })
 
@@ -45,7 +45,7 @@ const signUp = async (req, res) => {
 
     userDoc.save((err, info) => {
         if(err){
-            res.sendStatus(400).send({status:'400', data:err})
+            errorHandler(err, req, res)
         }else{
             res.status(201).send({
                 status:'201',
@@ -63,7 +63,7 @@ const signIn = async (req, res) => {
 
     const foundUser = await Usuario.findOne({"nombre":nombre}, (err, info) => {
         if(err){
-            res.sendStatus(400).send({status:'400', data:err})
+            res.status(400).send({status:'400', data:err})
         }else{ 
             return info 
         }
@@ -75,7 +75,7 @@ const signIn = async (req, res) => {
 
     if(match){
         const accessToken = createAccessToken(foundUser.nombre, foundUser.rol)
-        console.log("access:" + accessToken)
+
         res.status(201).send({
             status:'201',
             accessToken: accessToken,

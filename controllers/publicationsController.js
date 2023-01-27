@@ -1,5 +1,6 @@
 const rutaSchema = require("../models/ruta")
 const publicationService = require("../service/publicationService")
+const errorHandler = require('../helpers/errorHandler')
 
 const getAllRoutes = async (req, res) =>  {
     try{

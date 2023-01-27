@@ -1,5 +1,5 @@
 const CommentService = require('../service/commentService')
-const errorHandler = require('../utils/errorHandler')
+const errorHandler = require('../helpers/errorHandler')
 
 const getAllComments = async(req, res) =>  {
     try{
@@ -55,7 +55,7 @@ const createComment = async (req, res) => {
         const id_publicacion =  await CommentService.obtainIdPublicacion(req.body.id_publicacion)
     
         if(id_usuario == undefined || id_publicacion == undefined){
-            res.sendStatus(400).send({status:'400', data:error})
+            res.status(400).send({status:'400', data:error})
         }
     
         const comment = new comentario({

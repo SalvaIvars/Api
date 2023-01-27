@@ -1,7 +1,6 @@
 const UserService = require('../service/userService')
-const errorHandler = require('../utils/errorHandler')
-
-
+const errorHandler = require('../helpers/errorHandler')
+ 
 const getAllUsers = async (req,res) => {
     try{
         const response = await UserService.getAllUsers()
