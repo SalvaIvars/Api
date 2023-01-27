@@ -1,15 +1,15 @@
-const validator = require('express-validator')
+const {body} = require('express-validator')
 const validateResult = require('../helpers/validateHelper')
 
 const validateCreate = [
-    validator.check('nombre')
+    body('nombre')
         .exists()
         .not()
         .isEmpty(),
-    validator.check('email')
+    body('email')
         .exists()
         .isEmail(),
-    validator.check('password')
+    body('password')
         .exists()
         .not()
         .isEmpty(),

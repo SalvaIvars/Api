@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+const errorHandler = require('../helpers/errorHandler')
 require('dotenv').config()
 
 const verifyJWT =  (req, res, next) => {
@@ -11,7 +12,7 @@ const verifyJWT =  (req, res, next) => {
         process.env.ACCESS_TOKEN_SECRET,
         (err, decoded) => {
             if(err){
-                return res.sendStatus(403)
+                return errorHandler(err, req, res)
             }else{
                 req.nombre = decoded.nombre
                 req.rol = decoded.rol
@@ -30,12 +31,12 @@ const verifyJWTAdmin = (req, res, next) => {
         process.env.ACCESS_TOKEN_SECRET,
         (err, decoded) => {
             if(err){
-                return res.sendStatus(403)
+                return errorHandler(err, req, res)
             }else{
                 req.nombre = decoded.nombre
                 req.rol = decoded.rol
                 if(req.rol != "admin"){
-                    return res.sendStatus(401)
+                    return errorHandler("Unauthorized", req, res)
                 }
                 next()
             }

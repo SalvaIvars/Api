@@ -3,10 +3,13 @@ const errorHandler = require('./errorHandler')
 
 const validateResult = (req, res, next) => {
     try{
-        validator.validationResult(req.body).throw()
+        const errors = validator.validationResult(req.body)
+        if(!errors.isEmpty()){
+            return errorHandler(errors.array(), req, res)
+        }
         return next()
     } catch (e){
-        return errorHandler(e, req,res)
+        return errorHandler("Validation error", req,res)
     }
 }
 

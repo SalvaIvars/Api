@@ -22,7 +22,7 @@ const deleteComment = async(id) => {
     return commentPublication
 }
 
-const obtainIdPublicacion = async(ID) => {
+const obtainIdPublicacion = async(id) => {
     const commentPublication = await rutaSchema.find({"id_publicacion":id})
     return commentPublication
 }

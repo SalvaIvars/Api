@@ -10,7 +10,7 @@ const getAllRoutes = async (req, res) =>  {
             data: response
         })
     }catch (e){
-        errorHandler(e, req, res)
+        return errorHandler(e, req, res)
     }
 }
 
@@ -22,7 +22,7 @@ const getRoute = async (req, res) => {
             data: response
         })
     }catch (e){
-        errorHandler(e, req, res)
+        return errorHandler(e, req, res)
     }
 }
 
@@ -34,7 +34,7 @@ const updateRoute = async (req, res) => {
             data: response
         })
     }catch (e){
-        errorHandler(e, req, res)
+        return errorHandler(e, req, res)
     }
 }
 
@@ -46,7 +46,7 @@ const deleteRoute = async (req, res) => {
             data: response
         })
     }catch (e){
-        errorHandler(e, req, res)
+        return errorHandler(e, req, res)
     }
 }
 const createRoute = async (req, res) => {
@@ -77,7 +77,7 @@ const createRoute = async (req, res) => {
             data: response
         })
     }catch (e){
-        errorHandler(e, req, res)
+        return  errorHandler(e, req, res)
     }
 }
 

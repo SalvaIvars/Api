@@ -9,7 +9,7 @@ const getAllUsers = async (req,res) => {
             data: response
         })
     }catch (e){
-        errorHandler(e, req, res)
+        return errorHandler(e, req, res)
     }
 }
 
@@ -21,7 +21,7 @@ const getUser = async (req,res) => {
             data: response
         })
     }catch (e){
-        errorHandler(e, req, res)
+        return errorHandler(e, req, res)
     }
 }
 
@@ -33,7 +33,7 @@ const updateUser = async (req, res) => {
             data: response
         })
     }catch (e){
-        errorHandler(e, req, res)
+        return errorHandler(e, req, res)
     }
 }
 
@@ -45,7 +45,7 @@ const deleteUser = async (req, res) => {
             data: response
         })
     }catch (e){
-        errorHandler(e, req, res)
+        return errorHandler(e, req, res)
     }
 }
 

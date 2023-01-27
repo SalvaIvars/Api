@@ -20,10 +20,35 @@ const deleteUser = async(id) => {
     return responseUser
 }
 
+const findDuplicateUser = async(nombre) => {
+    const responseUser =  await Usuario.findOne({"nombre":nombre})
+    if(responseUser == null){
+        return false
+    }else{
+        return true
+    }
+}
+
+const foundUser = async(nombre) => {
+    const responseUser =  await Usuario.findOne({"nombre":nombre})
+    if(responseUser == null){
+        return false
+    }else{
+        return responseUser
+    }
+}
+
+const createUser = async (body) => {
+    const responseUser = await body.save()
+    return responseUser
+}
 
 module.exports = {
     getUser,
     getAllUsers,
     updateUser,
     deleteUser,
+    findDuplicateUser,
+    createUser,
+    foundUser
 }

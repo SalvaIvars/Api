@@ -9,7 +9,7 @@ const getAllComments = async(req, res) =>  {
             data: response
         })
     }catch (e){
-        errorHandler(e, req, res)
+        return errorHandler(e, req, res)
     }
 }
 
@@ -21,7 +21,7 @@ const getComment = async (req, res) => {
             data: response
         })
     }catch (e){
-        errorHandler(e, req, res)
+        return errorHandler(e, req, res)
     }
 }
 
@@ -33,7 +33,7 @@ const deleteComment = async (req, res) => {
             data: response
         })
     }catch (e){
-        errorHandler(e, req, res)
+        return errorHandler(e, req, res)
     }
 }
 
@@ -45,7 +45,7 @@ const updateComment = async (req, res) => {
             data: response
         })
     }catch (e){
-        errorHandler(e, req, res)
+        return errorHandler(e, req, res)
     }
 }
 
@@ -55,7 +55,7 @@ const createComment = async (req, res) => {
         const id_publicacion =  await CommentService.obtainIdPublicacion(req.body.id_publicacion)
     
         if(id_usuario == undefined || id_publicacion == undefined){
-            res.status(400).send({status:'400', data:error})
+            return errorHandler('Id_publicacion/Id_usuario error', req, res)
         }
     
         const comment = new comentario({
@@ -71,7 +71,7 @@ const createComment = async (req, res) => {
             data: response
         })
     }catch (e){
-        errorHandler(e, req, res)
+        return errorHandler(e, req, res)
     }
 }
 
