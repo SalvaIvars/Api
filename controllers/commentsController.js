@@ -54,7 +54,7 @@ const createComment = async (req, res) => {
         const id_usuario = await CommentService.obtainIdUsuario(req.body.id_usuario)
         const id_publicacion =  await CommentService.obtainIdPublicacion(req.body.id_publicacion)
     
-        if(id_usuario == undefined || id_publicacion == undefined){
+        if(id_usuario == null || id_publicacion == null){
             return errorHandler('Id_publicacion/Id_usuario error', req, res)
         }
     

@@ -19,7 +19,7 @@ const publicationsRoutes = require("./routes/publicationsRoutes")
 const commentsRoutes = require("./routes/commentsRoutes")
 const authRoutes = require("./authentication/authRoutes")
 
-app.use(express.json());
+app.use(express.json({limit:'50mb'}));
 app.use(bodyParser.json())
 app.use("/usuarios", userRoutes);
 app.use("/publications", publicationsRoutes);

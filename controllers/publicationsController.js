@@ -1,5 +1,6 @@
 const rutaSchema = require("../models/ruta")
 const publicationService = require("../service/publicationService")
+const commentService = require("../service/commentService")
 const errorHandler = require('../helpers/errorHandler')
 
 const getAllRoutes = async (req, res) =>  {
@@ -53,13 +54,15 @@ const createRoute = async (req, res) => {
     try{
         const id_publicacion = await publicationService.obtainIdPublicacion()
 
-        if(id_publicacion == undefined){
-            id_publicacion.id_publicacion = 0;
+        if(id_publicacion[0].id_publicacion == undefined){
+            id_publicacion[0].id_publicacion= 0;
         }
     
+        const id_usuario = await commentService.obtainIdUsuario(req.body.id_usuario)
+
         const route = new rutaSchema({
-            id_publicacion: id_publicacion.id_publicacion+1,
-            id_usuario: req.body.id_usuario,
+            id_publicacion: id_publicacion[0].id_publicacion+1,
+            id_usuario: id_usuario[0].id_usuario,
             fecha: req.body.fecha,
             nombre: req.body.nombre,
             categoria: req.body.categoria,
@@ -67,7 +70,7 @@ const createRoute = async (req, res) => {
             dificultad: req.body.dificultad,
             duracion: req.body.duracion,
             descripcion: req.body.descripcion, 
-            foto: req.body.fotos,
+            foto: req.body.foto,
             privacidad: req.body.privacidad,
         })
 

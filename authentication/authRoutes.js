@@ -5,7 +5,7 @@ const validateCreate = require('../validators/userValidator')
 const router = express.Router();
 
 router
-    .post('/signup', validateCreate, authController.signUp)
+    .post('/signup', authController.signUp)
     .post('/signin', authController.signIn)
     .post('/imagen', image.writeImage)
     .get('/imagen', image.readImage)

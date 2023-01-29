@@ -43,6 +43,20 @@ const createUser = async (body) => {
     return responseUser
 }
 
+const obtainIdPublicacion = async() => {
+    const responseUser = await Usuario.find().sort({"id_usuario":-1}).limit(1)
+    return responseUser
+}
+
+const checkEmail = async(email) => {
+    const responseUser =  await Usuario.findOne({"nombre":nombre})
+    if(responseUser == null){
+        return false
+    }else{
+        return true
+    }
+}
+
 module.exports = {
     getUser,
     getAllUsers,
@@ -50,5 +64,7 @@ module.exports = {
     deleteUser,
     findDuplicateUser,
     createUser,
-    foundUser
+    foundUser,
+    obtainIdPublicacion,
+    checkEmail
 }

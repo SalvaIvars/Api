@@ -39,9 +39,9 @@ let rutaSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    foto: {
+    foto: [{
         type: String,
-    },
+    }],
     privacidad: {
         type: String,
         default: "public"

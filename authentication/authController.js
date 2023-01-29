@@ -1,7 +1,6 @@
 const Usuario = require("../models/usuarios")
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
-const CommentService = require('../service/commentService')
 const errorHandler = require('../helpers/errorHandler')
 const UserService = require('../service/userService')
 require('dotenv').config()
@@ -20,14 +19,14 @@ const signUp = async (req, res) => {
 
     const hashedPwd = await bcrypt.hash(req.body.password, 10)
 
-    const id_usuario = await CommentService.obtainIdPublicacion()
+    const id = await UserService.obtainIdPublicacion()
 
-    if(id_usuario.id_usuario == undefined){
-        id_usuario.id_usuario=0
+    if(id[0].id_usuario == undefined){
+        id[0].id_usuario=0
     }
 
     const userDoc =  new Usuario({
-        id_usuario: id_usuario.id_usuario+1,
+        id_usuario: id[0].id_usuario+1,
         nombre: req.body.nombre,
         apellidos: req.body.apellidos,
         email: req.body.email,
