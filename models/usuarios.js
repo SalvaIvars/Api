@@ -24,6 +24,7 @@ let usuarioSchema = new mongoose.Schema({
     },
     nick:{
         type: String,
+        required: true, 
         trim: true,
     },
     password:{        

@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 
 let comentarioSchema = new mongoose.Schema({
     fecha:{
-        //type: Date,
         type: String,
         required: true,
     },
@@ -11,11 +10,11 @@ let comentarioSchema = new mongoose.Schema({
         required: true,
     },
     id_usuario:{
-        type: String,
+        type: Number,
         required: true,
     },
     id_publicacion:{
-        type: String,
+        type: Number,
         required: true,
     },
 });

@@ -23,16 +23,16 @@ let rutaSchema = new mongoose.Schema({
         default: 'escalada',
     },
     distancia: {
-        type: Number,
+        type: String,
         required: true,
     },
     dificultad: {
         type: String,
-        enum: ['facil', 'media', 'dificil'],
+        required: true,
         
     },
     duracion: {
-        type: Number,
+        type: String,
         required: true,
     },
     descripcion: {
