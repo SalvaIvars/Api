@@ -1,52 +1,52 @@
 const mongoose = require('mongoose');
 
-let rutaSchema = new mongoose.Schema({
-    id_publicacion:{
+let routeSchema = new mongoose.Schema({
+    id_publication:{
       type: Number,
       required: true,  
     },
-    id_usuario: {
+    id_user: {
         type: Number,
         required: true,
     },
-    fecha: {
+    date: {
         type: String,
     },
-    nombre: {
+    name: {
         type: String,
         trim:true,
         required: true,
     },
-    categoria: {
+    category: {
         type: String,
         trim:true,
         default: 'escalada',
     },
-    distancia: {
+    distance: {
         type: Number,
         required: true,
     },
-    dificultad: {
+    difficulty: {
         type: String,
         enum: ['facil', 'media', 'dificil'],
         
     },
-    duracion: {
+    duration: {
         type: Number,
         required: true,
     },
-    descripcion: {
+    description: {
         type: String,
         required: true,
     },
-    foto: [{
+    photo: [{
         type: String,
     }],
-    privacidad: {
+    privacy: {
         type: String,
         default: "public"
     }
 });
 
-let rutaColl = mongoose.model('Ruta', rutaSchema);
-module.exports = rutaColl;
+let Route = mongoose.model('Route', routeSchema);
+module.exports = Route;

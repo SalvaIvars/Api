@@ -1,4 +1,4 @@
-const rutaSchema = require("../models/ruta")
+const Route = require("../models/Route")
 const publicationService = require("../service/publicationService")
 const commentService = require("../service/commentService")
 const errorHandler = require('../helpers/errorHandler')
@@ -52,26 +52,26 @@ const deleteRoute = async (req, res) => {
 }
 const createRoute = async (req, res) => {
     try{
-        const id_publicacion = await publicationService.obtainIdPublicacion()
+        const id_publication = await publicationService.obtainIdPublication()
 
-        if(id_publicacion[0].id_publicacion == undefined){
-            id_publicacion[0].id_publicacion= 0;
+        if(id_publication[0].id_publication == undefined){
+            id_publication[0].id_publication= 0;
         }
     
-        const id_usuario = await commentService.obtainIdUsuario(req.body.id_usuario)
+        const id_usuario = await commentService.obtainIdUser(req.body.id_usuario)
 
-        const route = new rutaSchema({
-            id_publicacion: id_publicacion[0].id_publicacion+1,
-            id_usuario: id_usuario[0].id_usuario,
-            fecha: req.body.fecha,
-            nombre: req.body.nombre,
-            categoria: req.body.categoria,
-            distancia: req.body.distancia,
-            dificultad: req.body.dificultad,
-            duracion: req.body.duracion,
-            descripcion: req.body.descripcion, 
-            foto: req.body.foto,
-            privacidad: req.body.privacidad,
+        const route = new Route({
+            id_publication: id_publication[0].id_publication+1,
+            id_user: id_usuario[0].id_user,
+            date: req.body.date,
+            name: req.body.name,
+            category: req.body.category,
+            distance: req.body.distance,
+            difficulty: req.body.difficulty,
+            duration: req.body.duration,
+            description: req.body.description, 
+            photo: req.body.photo,
+            privacy: req.body.privacy,
         })
 
         const response = await publicationService.createRoute(route)

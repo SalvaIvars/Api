@@ -1,24 +1,24 @@
 const mongoose = require('mongoose');
 
-let comentarioSchema = new mongoose.Schema({
-    fecha:{
+let commentSchema = new mongoose.Schema({
+    date:{
         //type: Date,
         type: String,
         required: true,
     },
-    mensaje:{
+    message:{
         type: String,
         required: true,
     },
-    id_usuario:{
+    id_user:{
         type: String,
         required: true,
     },
-    id_publicacion:{
+    id_publication:{
         type: String,
         required: true,
     },
 });
 
-let Comentario = mongoose.model('Comentario', comentarioSchema);
-module.exports = Comentario;
+let Comment = mongoose.model('Comment', commentSchema);
+module.exports = Comment;

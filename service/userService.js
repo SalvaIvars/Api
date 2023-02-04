@@ -1,27 +1,27 @@
-const Usuario = require("../models/usuarios")
+const User = require("../models/User")
 
 const getUser = async(id) => {
-    const responseUser = await Usuario.findById({_id: id})
+    const responseUser = await User.findById({_id: id})
     return responseUser
 }
 
 const getAllUsers = async() => {
-    const responseUser = await Usuario.find()
+    const responseUser = await User.find()
     return responseUser
 }
 
 const updateUser = async(id, data) => {
-    const responseUser = await Usuario.findByIdAndUpdate(id, data)
+    const responseUser = await User.findByIdAndUpdate(id, data)
     return responseUser
 }
 
 const deleteUser = async(id) => {
-    const responseUser = await Usuario.findByIdAndDelete(id)
+    const responseUser = await User.findByIdAndDelete(id)
     return responseUser
 }
 
 const findDuplicateUser = async(nombre) => {
-    const responseUser =  await Usuario.findOne({"nombre":nombre})
+    const responseUser =  await User.findOne({"name":nombre})
     if(responseUser == null){
         return false
     }else{
@@ -30,7 +30,7 @@ const findDuplicateUser = async(nombre) => {
 }
 
 const foundUser = async(nombre) => {
-    const responseUser =  await Usuario.findOne({"nombre":nombre})
+    const responseUser =  await User.findOne({"name":nombre})
     if(responseUser == null){
         return false
     }else{
@@ -43,20 +43,37 @@ const createUser = async (body) => {
     return responseUser
 }
 
-const obtainIdPublicacion = async() => {
-    const responseUser = await Usuario.find().sort({"id_usuario":-1}).limit(1)
+const obtainIdPublication = async() => {
+    const responseUser = await User.find().sort({"id_user":-1}).limit(1)
     return responseUser
 }
 
 const checkEmail = async(email) => {
-    const responseUser =  await Usuario.findOne({"nombre":nombre})
+    const responseUser =  await User.findOne({"email":email})
     if(responseUser == null){
-        return false
+        return ""
     }else{
-        return true
+        return responseUser.email
     }
 }
 
+const checkNick = async(nick) => {
+    const responseUser = await User.findOne({"nick":nick})
+    if(responseUser == null){
+        return ""
+    }else{
+        return responseUser.nick
+    }
+}
+
+const foundUserByEmail = async(email) => {
+    const responseUser = await User.findOne({"email":email})
+    if(responseUser == null){
+        return false
+    }else{
+        return responseUser
+    }
+}
 module.exports = {
     getUser,
     getAllUsers,
@@ -65,6 +82,8 @@ module.exports = {
     findDuplicateUser,
     createUser,
     foundUser,
-    obtainIdPublicacion,
-    checkEmail
+    obtainIdPublication,
+    checkEmail,
+    checkNick,
+    foundUserByEmail
 }

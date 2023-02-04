@@ -1,4 +1,4 @@
-const Usuario = require("../models/usuarios")
+const User = require("../models/User")
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const errorHandler = require('../helpers/errorHandler')
@@ -7,34 +7,25 @@ require('dotenv').config()
  
 // register
 const signUp = async (req, res) => { 
-    var duplicate;
-    try{
-        duplicate = await UserService.findDuplicateUser(req.body.nombre)
-        if(duplicate){
-            return errorHandler('Username is allready chosen', req, res)
-        }
-    }catch (e){
-        return errorHandler(e, req, res)
-    }
-
     const hashedPwd = await bcrypt.hash(req.body.password, 10)
 
-    const id = await UserService.obtainIdPublicacion()
+    const id = await UserService.obtainIdPublication()
+    var idUserNum = 0
 
-    if(id[0].id_usuario == undefined){
-        id[0].id_usuario=0
+    if(id.length != 0){
+       idUserNum =  id[0].id_user
     }
 
-    const userDoc =  new Usuario({
-        id_usuario: id[0].id_usuario+1,
-        nombre: req.body.nombre,
-        apellidos: req.body.apellidos,
+    const userDoc =  new User({
+        id_user: idUserNum+1,
+        name: req.body.name,
+        lastname: req.body.lastname,
         email: req.body.email,
-        fecha: req.body.fecha,
+        date: req.body.date,
         nick: req.body.nick,
         password:hashedPwd,
-        siguiendo: req.body.siguiendo,
-        foto: req.body.foto,
+        following: req.body.following,
+        photo: req.body.photo,
         rol: req.body.rol
     })
 
@@ -45,6 +36,7 @@ const signUp = async (req, res) => {
         res.status(201).send({
             status:'201',
             accessToken: accesToken,
+            id: userDoc._id,
         })
     }catch (e){
         return  errorHandler(e, req, res)
@@ -53,13 +45,11 @@ const signUp = async (req, res) => {
 
 // Login
 const signIn = async (req, res) => { 
-    const {nombre, password} = req.body
-
-    if(!nombre || !password) return errorHandler('Username and password are required.')
+    const {email, password} = req.body
 
     var foundUser;
     try{
-        foundUser = await UserService.foundUser(nombre)
+        foundUser = await UserService.foundUserByEmail(email)
         if(foundUser == false){
             return errorHandler('User not found', req, res)
         }
@@ -70,14 +60,13 @@ const signIn = async (req, res) => {
     const match = await bcrypt.compare(password, foundUser.password)
 
     if(match){
-        const accessToken = createAccessToken(foundUser.nombre, foundUser.rol)
-
+        const accessToken = createAccessToken(foundUser.name, foundUser.rol)
         res.status(201).send({
             status:'201',
             accessToken: accessToken,
         })
     }else{
-        return errorHandler('User/Password incorrect', req, res)
+        return errorHandler('Email/Password incorrect', req, res)
     }
 }
 
