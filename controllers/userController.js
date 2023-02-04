@@ -1,7 +1,10 @@
 const UserService = require('../service/userService')
 const errorHandler = require('../helpers/errorHandler')
+const imageUtils = require('../utils/imageUtils')
+const imageService = require('../service/imageService')
 const path = require('path')
-const { readdir } = require('fs/promises');
+const fs = require('fs')
+const publicationService = require("../service/publicationService")
 
 const getAllUsers = async (req,res) => {
     try{
@@ -41,46 +44,82 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
     try{
+        const user = await UserService.getUser(req.params.id)
+        
+        deleteRoutePicturesByUser(user.email,req,res)
+        delteRoutesByUser(user.email,req,res)
+        deleteProfilePicture(user.email, req, res)
+
         const response = await UserService.deleteUser(req.params.id)
         res.status(200).send({
             status:'200',
-            data: response
+            data: "User delted"
         })
     }catch (e){
-        return errorHandler(e, req, res)
+        return errorHandler(e.message, req, res)
     }
 }
 
-const getProfilePicture =  (req, res) => {
+const deleteProfilePicture = async (email,req, res) => {
     let dir = path.join(__dirname, '/../images/profilePicture/')
-    findByExtension(dir).then((files) => {
+    try{
+        await imageUtils.findByExtension(dir, email).then((files) => {
+            if(files.length == 0){
+                return errorHandler("User doesn't have an image", req, res)
+            }
+            dir = path.join(dir, files[0])
+            if(files.length != 0){
+                fs.unlink(dir, (err) => {
+                    if (err) {
+                        return errorHandler(err.message, req, res)
+                    }
+                
+                    res.status(200).send({
+                        status:'200',
+                        data: "Image deleted"
+                    })
+                });
+            }
+        });
+    }catch(e){
+        return ;
+    }
+}
+
+const delteRoutesByUser = async(email) => {
+    const publicationList = await UserService.obtainUserPublications(email)
+    publicationList.forEach((pub) => {
+        publicationService.deleteRoute(pub._id)
+    })
+}
+
+const deleteRoutePicturesByUser = async(email,req,res) => {
+    const publicationList = await UserService.obtainUserPublications(email)
+    publicationList.forEach((pub) => {
+        imageService.delteRouteImages(pub.id_publication,req,res)
+    })
+}
+
+const getProfilePicture = async (req, res) => {
+    let dir = path.join(__dirname, '/../images/profilePicture/')
+    let defaultImage = path.join(__dirname,'/../images/profilePicture/defaultProfilePicture.png')
+    console.log(dir)
+    await imageUtils.findByExtension(dir.toString(), req.body.email).then((files) => {
+        if(files.length === 0){
+            return res.sendFile(defaultImage)
+        }
+
         dir = path.join(dir, files[0])
         res.sendFile( dir)
     });
 }
-
-const findByExtension = async (dir) => {
-    const matchedFiles = [];
-    const extensions = ['PNG','png', 'jpg','jpeg','jpg','svg']
-    const files = await readdir(dir);
-
-    for (const file of files) {
-
-        const fileExt = path.extname(file);
-        for(const ext in extensions){
-            if (fileExt === `.${extensions[ext]}`) {
-                matchedFiles.push(file);
-            }
-        }
-    }
-
-    return matchedFiles;
-};
 
 module.exports = {
     getAllUsers,
     getUser,
     updateUser,
     deleteUser,
-    getProfilePicture
+    getProfilePicture,
+    deleteProfilePicture
+    
 }

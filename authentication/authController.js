@@ -64,6 +64,7 @@ const signIn = async (req, res) => {
         res.status(201).send({
             status:'201',
             accessToken: accessToken,
+            id: foundUser._id
         })
     }else{
         return errorHandler('Email/Password incorrect', req, res)

@@ -23,16 +23,16 @@ const fileFilter = (req, file, cb) => {
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, path.join(__dirname,'../images/profilePicture'))
+        cb(null, path.join(__dirname,'/../images/profilePicture/'))
     },
-    filename
+    filename: filename
 })
 
 module.exports =  multer({
-    storage,
+    storage:storage,
     limits: {
         fileSize: 5000000
     },
-    fileFilter
+    fileFilter: fileFilter
 }).single('photo')
 

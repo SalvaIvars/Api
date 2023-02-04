@@ -4,7 +4,7 @@ require('dotenv').config()
 
 const verifyJWT =  (req, res, next) => {
     const authHeader = req.headers['authorization']
-    if(!authHeader) return errorHandler('Login problem',req, res)
+    if(!authHeader) return errorHandler('Unauthorized',req, res)
     const token = authHeader.split(' ')[1];
     
     jwt.verify(
@@ -24,7 +24,7 @@ const verifyJWT =  (req, res, next) => {
 
 const verifyJWTAdmin = (req, res, next) => {
     const authHeader = req.headers['authorization']
-    if(!authHeader) return errorHandler('Login problem',req, res)
+    if(!authHeader) return errorHandler('Unauthorized',req, res)
     const token = authHeader.split(' ')[1];
     jwt.verify(
         token,

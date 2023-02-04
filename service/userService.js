@@ -1,5 +1,5 @@
 const User = require("../models/User")
-const { readdir } = require('fs');
+const Route = require("../models/Route")
 
 const getUser = async(id) => {
     const responseUser = await User.findById({_id: id})
@@ -49,6 +49,11 @@ const obtainIdPublication = async() => {
     return responseUser
 }
 
+const obtainIdUserEmail = async(email) => {
+    const responseUser = await User.findOne({"email":email})
+    return responseUser.id_user
+}
+
 const checkEmail = async(email) => {
     const responseUser =  await User.findOne({"email":email})
     if(responseUser == null){
@@ -76,6 +81,13 @@ const foundUserByEmail = async(email) => {
     }
 }
 
+const obtainUserPublications = async(email) => {
+    const id_user = await obtainIdUserEmail(email)
+    const responseRoute = await Route.find({"id_user":id_user})
+    return responseRoute
+
+}
+
 module.exports = {
     getUser,
     getAllUsers,
@@ -87,5 +99,6 @@ module.exports = {
     obtainIdPublication,
     checkEmail,
     checkNick,
-    foundUserByEmail
+    foundUserByEmail,
+    obtainUserPublications
 }

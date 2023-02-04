@@ -1,14 +1,20 @@
 const multer = require('multer');
 const path = require('path')
+const imageUtils = require('../utils/imageUtils')
+const fs = require('fs')
+const fsExtra = require('fs-extra');
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, path.join(__dirname,'../images/profilePicture'))
-    },
-    filename: function (req, file, cb) {
-        cb(null, `${Date.now()}-${file.originalname}`)
+const filename = async (req, file, cb) => {
+    if(req.body.id_publication == null){
+        return cb("Error uploading image")
     }
-})
+
+    const publicationPath = path.join(__dirname,'/../images/publicationPicture/'+req.body.id_publication+'/')
+
+    let nFiles = await imageUtils.getNumberOfFiles(publicationPath)
+
+    cb(null, `${req.body.id_publication}_${nFiles}${path.extname(file.originalname)}`)
+}
 
 const fileFilter = (req, file, cb) => {
     let mimetype = false
@@ -18,14 +24,41 @@ const fileFilter = (req, file, cb) => {
     if(mimetype) {
         cb(null, true)
     }else{
-        cb("Error: File must be an image")
+        return cb("Error: File must be an image")
     }
 }
 
+const destination = async (req, file, cb) => {
+    const publicationPath = path.join(__dirname,'/../images/publicationPicture/'+req.body.id_publication+'/')
+
+    try {
+        if(fs.existsSync(publicationPath)){
+            //let nFiles = await imageUtils.getNumberOfFiles(publicationPath)
+            //fsExtra.emptyDirSync(publicationPath);
+        }
+        else{
+            fs.mkdir(publicationPath,(err) => {
+                if (err) {
+                    return cb(err.message);
+                }
+            })
+        }
+    } catch(e) {
+        return cb(e.message)
+    }
+
+    cb(null,publicationPath)
+}
+
+const storage = multer.diskStorage({
+    destination: destination,
+    filename: filename
+})
+
 module.exports =  multer({
-    storage,
+    storage:storage,
     limits: {
-        fileSize: 5000000
+        fileSize: 10000000
     },
-    fileFilter
-}).single('photo')
+    fileFilter:fileFilter
+}).any('photo',10)
