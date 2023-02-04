@@ -1,6 +1,8 @@
 const UserService = require('../service/userService')
 const errorHandler = require('../helpers/errorHandler')
- 
+const path = require('path')
+const { readdir } = require('fs/promises');
+
 const getAllUsers = async (req,res) => {
     try{
         const response = await UserService.getAllUsers()
@@ -49,9 +51,36 @@ const deleteUser = async (req, res) => {
     }
 }
 
+const getProfilePicture =  (req, res) => {
+    let dir = path.join(__dirname, '/../images/profilePicture/')
+    findByExtension(dir).then((files) => {
+        dir = path.join(dir, files[0])
+        res.sendFile( dir)
+    });
+}
+
+const findByExtension = async (dir) => {
+    const matchedFiles = [];
+    const extensions = ['PNG','png', 'jpg','jpeg','jpg','svg']
+    const files = await readdir(dir);
+
+    for (const file of files) {
+
+        const fileExt = path.extname(file);
+        for(const ext in extensions){
+            if (fileExt === `.${extensions[ext]}`) {
+                matchedFiles.push(file);
+            }
+        }
+    }
+
+    return matchedFiles;
+};
+
 module.exports = {
     getAllUsers,
     getUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    getProfilePicture
 }

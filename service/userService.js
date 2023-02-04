@@ -1,4 +1,5 @@
 const User = require("../models/User")
+const { readdir } = require('fs');
 
 const getUser = async(id) => {
     const responseUser = await User.findById({_id: id})
@@ -74,6 +75,7 @@ const foundUserByEmail = async(email) => {
         return responseUser
     }
 }
+
 module.exports = {
     getUser,
     getAllUsers,

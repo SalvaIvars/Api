@@ -52,17 +52,25 @@ const deleteRoute = async (req, res) => {
 }
 const createRoute = async (req, res) => {
     try{
-        const id_publication = await publicationService.obtainIdPublication()
+        let id_publication = await publicationService.obtainIdPublication()
 
-        if(id_publication[0].id_publication == undefined){
-            id_publication[0].id_publication= 0;
+        if(id_publication.length == 0){
+            id_publication = 0
+        }else{
+            id_publication = id_publication[0].id_publication+1
         }
-    
-        const id_usuario = await commentService.obtainIdUser(req.body.id_usuario)
+
+        let id_user = await commentService.obtainIdUser(req.body.id_user)
+
+        if(id_user.length == 0){
+            id_user = 0
+        }else{
+            id_user = id_user[0].id_user
+        }
 
         const route = new Route({
-            id_publication: id_publication[0].id_publication+1,
-            id_user: id_usuario[0].id_user,
+            id_publication: id_publication,
+            id_user: id_user,
             date: req.body.date,
             name: req.body.name,
             category: req.body.category,
