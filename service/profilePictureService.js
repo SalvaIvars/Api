@@ -1,5 +1,7 @@
 const multer = require('multer');
 const path = require('path');
+const imageUtils = require('../utils/imageUtils')
+const fs = require('fs')
 
 const filename = (req, file, cb) => {
     if(req.body.email == null){
@@ -21,10 +23,21 @@ const fileFilter = (req, file, cb) => {
     }
 }
 
+const destination = async (req, file, cb) => {
+    let profilePicturePath = path.join(__dirname,'/../images/profilePicture/')
+    let files = await imageUtils.findByExtension(profilePicturePath, req.body.email)
+    if(files.length > 0){
+        let pictureDelete = path.join(profilePicturePath, files[0])
+        fs.unlink(pictureDelete, (err) => {
+            if (err) {
+                return errorHandler(err.message, req, res);
+            }
+        })
+    }
+    cb(null, profilePicturePath)
+}
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, path.join(__dirname,'/../images/profilePicture/'))
-    },
+    destination: destination,
     filename: filename
 })
 
