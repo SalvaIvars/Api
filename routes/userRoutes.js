@@ -11,7 +11,6 @@ router
    .put("/:id",verify.verifyJWTAdmin, userController.updateUser)
    .delete("/photo", userController.deleteProfilePicture)
    .post("/photo", uploadImage.uploadProfilePicture, function(req,res){
-      console.log("fun")
       res.sendStatus(200)
   })
 
