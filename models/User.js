@@ -1,17 +1,17 @@
 const mongoose = require('mongoose');
 
-let usuarioSchema = new mongoose.Schema({
-    id_usuario: {
+let userSchema = new mongoose.Schema({
+    id_user: {
         type: Number,
         trim: true,
         required: true,
     },
-    nombre:{
+    name:{
         type: String,
         trim: true,
         required: true,
     },
-    apellidos:{
+    lastname:{
         type: String,
     },
     email:{
@@ -19,22 +19,22 @@ let usuarioSchema = new mongoose.Schema({
         unique: true,
         required: true,
     },
-    fecha:{
+    date:{
         type: String,
     },
     nick:{
         type: String,
-        required: true, 
+        required: true,
         trim: true,
     },
     password:{        
         type: String,
         required: true,
     },
-    siguiendo:[{
+    following:[{
         type: String,
     }],
-    foto:{
+    photo:{
         type: String,
     },
     rol:{
@@ -44,5 +44,5 @@ let usuarioSchema = new mongoose.Schema({
 })  
 
 
-let Usuario = mongoose.model('Usuarios', usuarioSchema);
-module.exports = Usuario;
+let User = mongoose.model('User', userSchema);
+module.exports = User;

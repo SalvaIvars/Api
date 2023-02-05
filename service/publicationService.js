@@ -1,27 +1,27 @@
-const rutaSchema = require("../models/ruta")
+const Route = require("../models/Route")
 
 const getRoute = async(id) => {
-    const responsePublication = await rutaSchema.findById({_id: id})
+    const responsePublication = await Route.findById({_id: id})
     return responsePublication
 }
 
 const getAllRoutes = async() => {
-    const responsePublication = await rutaSchema.find()
+    const responsePublication = await Route.find()
     return responsePublication
 }
 
 const updateRoute = async(id, data) => {
-    const responsePublication = await rutaSchema.findByIdAndUpdate(id, data)
+    const responsePublication = await Route.findByIdAndUpdate(id, data)
     return responsePublication
 }
 
 const deleteRoute = async(id) => {
-    const responsePublication = await rutaSchema.findByIdAndDelete(id)
+    const responsePublication = await Route.findByIdAndDelete(id)
     return responsePublication
 }
 
-const obtainIdPublicacion = async() => {
-    const responsePublication = await rutaSchema.find().sort({"id_publicacion":-1}).limit(1)
+const obtainIdPublication = async() => {
+    const responsePublication = await Route.find().sort({"id_publication":-1}).limit(1)
     return responsePublication
 }
 
@@ -36,6 +36,6 @@ module.exports = {
     getAllRoutes,
     deleteRoute,
     updateRoute, 
-    obtainIdPublicacion,
+    obtainIdPublication,
     createRoute
 }

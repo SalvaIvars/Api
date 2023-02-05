@@ -1,5 +1,6 @@
 const CommentService = require('../service/commentService')
 const errorHandler = require('../helpers/errorHandler')
+const Comment = require("../models/Comment")
 
 const getAllComments = async(req, res) =>  {
     try{
@@ -51,18 +52,18 @@ const updateComment = async (req, res) => {
 
 const createComment = async (req, res) => {
     try{
-        const id_usuario = await CommentService.obtainIdUsuario(req.body.id_usuario)
-        const id_publicacion =  await CommentService.obtainIdPublicacion(req.body.id_publicacion)
+        const id_user = await CommentService.obtainIdUser(req.body.id_user)
+        const id_publication =  await CommentService.obtainIdPublication(req.body.id_publication)
     
-        if(id_usuario == null || id_publicacion == null){
-            return errorHandler('Id_publicacion/Id_usuario error', req, res)
+        if(id_user == null || id_publication == null){
+            return errorHandler('Publications/User error', req, res)
         }
     
-        const comment = new comentario({
-            fecha:req.body.fecha,
-            mensaje: req.body.mensaje,
-            id_usuario:id_usuario.id_usuario,
-            id_publicacion:id_publicacion.id_publicacion
+        const comment = new Comment({
+            date:req.body.date,
+            message: req.body.message,
+            id_user:id_usuario.id_user,
+            id_publication:id_publication.id_publication
         })
 
         const response = await CommentService.createComment(comment)

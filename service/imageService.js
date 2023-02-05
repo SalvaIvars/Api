@@ -1,23 +1,45 @@
-const mime = require('mime')
+const imageUtils = require('../utils/imageUtils')
+const path = require('path')
 const fs = require('fs')
+const errorHandler = require('../helpers/errorHandler')
 
-const writeImage = (req, res) => {
-    let extension = mime.getExtension(mime.getType(req.body.profilePicturePath))
-    let profilePicture = req.body.user_id + '.' + extension;
-    let profilePicturePath = __dirname+'/../images/profilePicture/' + profilePicture ;
-    let buffer = Buffer.from(req.body.profilePicture, 'base64');
+const delteRouteImages = async(id_publication,req,res) => {
+    let dir = path.join(__dirname, '/../images/publicationPicture/'+id_publication+'/')
+    
+    if(fs.existsSync(dir)){
+        try{
+            await imageUtils.findByExtension(dir, id_publication).then((files) => {
+                if(files.length == 0){
+                    return errorHandler("error", req, res);
+                }
 
-    fs.writeFileSync(profilePicturePath, buffer);
-    return profilePicture;
-}
+                for(const file in files){
+                    dir = path.join(dir,files[file])
+                    fs.unlink(dir, (err) => {
+                        if (err) {
+                            return errorHandler(err, req, res);
+                        }
+                    })
+                    dir = path.join(__dirname, '/../images/publicationPicture/'+id_publication+'/')
+                }
 
-const readImage = (file)  => {
-    var bitmap = fs.readFileSync(file);
-    return new Buffer.from(bitmap).toString('base64');
+                fs.rmdir(dir, (err) => {
+                    if (err) {
+                        return errorHandler(err.message, req, res);
+                    }
+                })
+
+                res.status(200).send({
+                    status:'200',
+                    data: "Images deleted"
+                })
+            })
+        }catch(e){
+            return;
+        }
+    }
 }
 
 module.exports = {
-    writeImage,
-    readImage
+    delteRouteImages
 }
-

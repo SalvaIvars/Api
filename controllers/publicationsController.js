@@ -1,7 +1,8 @@
-const rutaSchema = require("../models/ruta")
+const Route = require("../models/Route")
 const publicationService = require("../service/publicationService")
-const commentService = require("../service/commentService")
 const errorHandler = require('../helpers/errorHandler')
+const path = require('path')
+const imageUtils = require('../utils/imageUtils')
 
 const getAllRoutes = async (req, res) =>  {
     try{
@@ -52,26 +53,26 @@ const deleteRoute = async (req, res) => {
 }
 const createRoute = async (req, res) => {
     try{
-        const id_publicacion = await publicationService.obtainIdPublicacion()
+        let id_publication = await publicationService.obtainIdPublication()
 
-        if(id_publicacion[0].id_publicacion == undefined){
-            id_publicacion[0].id_publicacion= 0;
+        if(id_publication.length == 0){
+            id_publication = 0
+        }else{
+            id_publication = id_publication[0].id_publication+1
         }
-    
-        const id_usuario = await commentService.obtainIdUsuario(req.body.id_usuario)
 
-        const route = new rutaSchema({
-            id_publicacion: id_publicacion[0].id_publicacion+1,
-            id_usuario: id_usuario[0].id_usuario,
-            fecha: req.body.fecha,
-            nombre: req.body.nombre,
-            categoria: req.body.categoria,
-            distancia: req.body.distancia,
-            dificultad: req.body.dificultad,
-            duracion: req.body.duracion,
-            descripcion: req.body.descripcion, 
-            foto: req.body.foto,
-            privacidad: req.body.privacidad,
+        const route = new Route({
+            id_publication: id_publication,
+            id_user: req.body.id_user,
+            date: req.body.date,
+            name: req.body.name,
+            category: req.body.category,
+            distance: req.body.distance,
+            difficulty: req.body.difficulty,
+            duration: req.body.duration,
+            description: req.body.description, 
+            photo: req.body.photo,
+            privacy: req.body.privacy,
         })
 
         const response = await publicationService.createRoute(route)
@@ -84,6 +85,10 @@ const createRoute = async (req, res) => {
     }
 }
 
+const getPublicationPictures = async(req, res) => {
+    const dir = path.join(__dirname,'/../images/publicationPicture/'+req.body.id_publication+'/')
+    // Enviar con static
+}
 
 module.exports = {
     getAllRoutes,
@@ -91,4 +96,5 @@ module.exports = {
     createRoute,
     deleteRoute,
     updateRoute,
+    getPublicationPictures
 }

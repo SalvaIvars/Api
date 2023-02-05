@@ -1,34 +1,34 @@
-const comentario = require("../models/comentarios")
-const rutaSchema = require("../models/ruta")
-const Usuario = require("../models/usuarios")
+const Comment = require("../models/Comment")
+const Route = require("../models/Route")
+const User = require("../models/User")
 
 const getComment = async(id) => {
-    const commentPublication = await comentario.findById({_id: id})
+    const commentPublication = await Comment.findById({_id: id})
     return commentPublication
 }
 
 const getAllComments = async() => {
-    const commentPublication = await comentario.find()
+    const commentPublication = await Comment.find()
     return commentPublication
 }
 
 const updateComment = async(id, data) => {
-    const commentPublication = await comentario.findByIdAndUpdate(id, data)
+    const commentPublication = await Comment.findByIdAndUpdate(id, data)
     return commentPublication
 }
 
 const deleteComment = async(id) => {
-    const commentPublication = await comentario.findByIdAndDelete(id)
+    const commentPublication = await Comment.findByIdAndDelete(id)
     return commentPublication
 }
 
-const obtainIdPublicacion = async(id) => {
-    const commentPublication = await rutaSchema.find({"id_publicacion":id})
+const obtainIdPublication = async(id) => {
+    const commentPublication = await Route.find({"id_publication":id})
     return commentPublication
 }
 
-const obtainIdUsuario = async(id) => {
-    const commentPublication = await Usuario.find({"id_usuario":id})
+const obtainIdUser = async(id) => {
+    const commentPublication = await User.find({"id_user":id})
     return commentPublication
 }
 
@@ -43,7 +43,7 @@ module.exports = {
     getAllComments,
     deleteComment,
     updateComment, 
-    obtainIdPublicacion,
-    obtainIdUsuario,
+    obtainIdPublication,
+    obtainIdUser,
     createComment
 }

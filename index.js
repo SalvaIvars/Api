@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser')
+const expressValidator = require('express-validator')
 mongoose.set('strictQuery', true); 
 
 try{
@@ -21,7 +22,7 @@ const authRoutes = require("./authentication/authRoutes")
 
 app.use(express.json({limit:'50mb'}));
 app.use(bodyParser.json())
-app.use("/usuarios", userRoutes);
+app.use("/users", userRoutes);
 app.use("/publications", publicationsRoutes);
 app.use("/comments", commentsRoutes)
 app.use("/auth", authRoutes)

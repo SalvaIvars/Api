@@ -1,19 +1,14 @@
-const validator = require('express-validator')
-const errorHandler = require('./errorHandler')
+const { validationResult } = require('express-validator'); //TODO:
+const errorHandler = require('../helpers/errorHandler')
 
 const validateResult = (req, res, next) => {
-    try{
-        const errors = validator.validationResult(req.body)
-        if(!errors.isEmpty()){
-            return errorHandler(errors.array(), req, res)
-        }
+    try {
+        validationResult(req).throw()
         return next()
-    } catch (e){
-        return errorHandler("Validation error", req,res)
+    } catch (err) {
+        console.log(err)
+        return errorHandler(err.array()[0].msg, req, res)
     }
 }
 
-
-module.exports =  {
-    validateResult,
-}
+module.exports = { validateResult }
