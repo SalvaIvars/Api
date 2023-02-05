@@ -12,7 +12,6 @@ router
    .put("/:id", verify.verifyJWT,publicationsController.updateRoute)
    .delete("/:id", verify.verifyJWT,publicationsController.deleteRoute)
    .post("/photo", uploadImage.uploadPublicationPictures, function(req,res){
-      console.log("fun")
       res.sendStatus(200)
   })
 

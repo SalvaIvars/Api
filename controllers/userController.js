@@ -103,7 +103,6 @@ const deleteRoutePicturesByUser = async(email,req,res) => {
 const getProfilePicture = async (req, res) => {
     let dir = path.join(__dirname, '/../images/profilePicture/')
     let defaultImage = path.join(__dirname,'/../images/profilePicture/defaultProfilePicture.png')
-    console.log(dir)
     await imageUtils.findByExtension(dir.toString(), req.body.email).then((files) => {
         if(files.length === 0){
             return res.sendFile(defaultImage)

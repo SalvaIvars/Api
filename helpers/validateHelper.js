@@ -3,10 +3,9 @@ const errorHandler = require('../helpers/errorHandler')
 
 const validateResult = (req, res, next) => {
     try {
-        validationResult(req).throw()
+        validationResult(req.body).throw()
         return next()
     } catch (err) {
-        console.log(err)
         return errorHandler(err.array()[0].msg, req, res)
     }
 }

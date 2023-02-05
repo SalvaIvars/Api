@@ -53,10 +53,7 @@ const validateLogin = [
         .withMessage("Invalid email")
         .custom(async (email)=>{
             const searchedEmail = await UserService.checkEmail(email);
-            console.log("email: "  + email)
-            console.log("searched: " + searchedEmail)
             if(searchedEmail.length <= 0)
-            console.log("m")
                 return errorHandler("Email not registered", req, res)
         }),
 
