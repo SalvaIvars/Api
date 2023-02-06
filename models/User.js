@@ -1,11 +1,6 @@
 const mongoose = require('mongoose');
 
 let userSchema = new mongoose.Schema({
-    id_user: {
-        type: Number,
-        trim: true,
-        required: true,
-    },
     name:{
         type: String,
         trim: true,
@@ -25,6 +20,7 @@ let userSchema = new mongoose.Schema({
     nick:{
         type: String,
         required: true,
+        unique: true,
         trim: true,
     },
     password:{        

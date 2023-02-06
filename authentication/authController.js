@@ -9,15 +9,7 @@ require('dotenv').config()
 const signUp = async (req, res) => { 
     const hashedPwd = await bcrypt.hash(req.body.password, 10)
 
-    const id = await UserService.obtainIdPublication()
-    var idUserNum = 0
-
-    if(id.length != 0){
-       idUserNum =  id[0].id_user
-    }
-
     const userDoc =  new User({
-        id_user: idUserNum+1,
         name: req.body.name,
         lastname: req.body.lastname,
         email: req.body.email,

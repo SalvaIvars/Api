@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 
 let commentSchema = new mongoose.Schema({
     date:{
-        //type: Date,
         type: String,
         required: true,
     },
@@ -10,7 +9,7 @@ let commentSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    id_user:{
+    email:{
         type: String,
         required: true,
     },

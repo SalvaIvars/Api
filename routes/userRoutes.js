@@ -10,6 +10,7 @@ router
    .get("/photo", userController.getProfilePicture)
    .get("/:id", verify.verifyJWT,userController.getUser)
    .put("/:id",verify.verifyJWTAdmin,userValidator.validateUpdateUser, userController.updateUser)
+   .delete("/:id", verify.verifyJWTAdmin, userController.deleteUser)
    .delete("/photo", userController.deleteProfilePicture)
    .post("/photo", uploadImage.uploadProfilePicture, function(req,res){
       res.sendStatus(200)

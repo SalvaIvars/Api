@@ -2,6 +2,18 @@ const { check } = require('express-validator')
 const { validateResult } = require('../helpers/validateHelper')
 
 const validateCreate = [ 
+    check('email')
+    .trim()
+    .not()
+    .isEmpty()
+    .isEmail()
+    .withMessage("Invalid email")
+    .custom(async (email)=>{
+        const searchedEmail = await UserService.checkEmail(email);
+        if(searchedEmail.length <= 0)
+            return errorHandler("This email doesn't exists", req, res)
+    }),
+
     check('name')
         .trim()
         .not()

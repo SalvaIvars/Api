@@ -17,15 +17,16 @@ const validateCreate = [
         .isEmpty()
         .withMessage("Invalid date"),
 
-    check('id_user')
+    check('email')
         .trim()
         .not()
         .isEmpty()
-        .withMessage("Invalid id_user")
-        .custom(async (id_user)=>{
-            const exists = await UserService.checkIfIdUserExists(id_user);
-            if(!exists)
-                return errorHandler("Id_user doesn't exist", req, res)
+        .isEmail()
+        .withMessage("Invalid email")
+        .custom(async (email)=>{
+            const searchedEmail = await UserService.checkEmail(email);
+            if(searchedEmail.length <= 0)
+                return errorHandler("This email doesn't exists", req, res)
         }),
 
     check('id_publication')

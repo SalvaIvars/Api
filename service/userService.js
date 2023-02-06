@@ -44,15 +44,6 @@ const createUser = async (body) => {
     return responseUser
 }
 
-const obtainIdPublication = async() => {
-    const responseUser = await User.find().sort({"id_user":-1}).limit(1)
-    return responseUser
-}
-
-const obtainIdUserEmail = async(email) => {
-    const responseUser = await User.findOne({"email":email})
-    return responseUser.id_user
-}
 
 const checkEmail = async(email) => {
     const responseUser =  await User.findOne({"email":email})
@@ -82,19 +73,11 @@ const foundUserByEmail = async(email) => {
 }
 
 const obtainUserPublications = async(email) => {
-    const id_user = await obtainIdUserEmail(email)
-    const responseRoute = await Route.find({"id_user":id_user})
-    return responseRoute
+    const responseUser = await Route.find({"email":email})
+    console.log(responseUser)
+    return responseUser
 }
 
-const checkIfIdUserExists = async(id) => {
-    const exists = await User.find({"id_user":id})
-    if(exists == null){
-        return false
-    }else{
-        return true
-    }
-}
 module.exports = {
     getUser,
     getAllUsers,
@@ -103,10 +86,8 @@ module.exports = {
     findDuplicateUser,
     createUser,
     foundUser,
-    obtainIdPublication,
     checkEmail,
     checkNick,
     foundUserByEmail,
-    obtainUserPublications,
-    checkIfIdUserExists
+    obtainUserPublications
 }

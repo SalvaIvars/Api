@@ -11,7 +11,7 @@ const getAllRoutes = async (req, res) =>  {
             data: response
         })
     }catch (e){
-        return errorHandler(e, req, res)
+        return errorHandler(e.message, req, res)
     }
 }
 
@@ -23,7 +23,7 @@ const getRoute = async (req, res) => {
             data: response
         })
     }catch (e){
-        return errorHandler(e, req, res)
+        return errorHandler(e.message, req, res)
     }
 }
 
@@ -35,7 +35,7 @@ const updateRoute = async (req, res) => {
             data: response
         })
     }catch (e){
-        return errorHandler(e, req, res)
+        return errorHandler(e.message, req, res)
     }
 }
 
@@ -47,22 +47,13 @@ const deleteRoute = async (req, res) => {
             data: response
         })
     }catch (e){
-        return errorHandler(e, req, res)
+        return errorHandler(ee.message, req, res)
     }
 }
 const createRoute = async (req, res) => {
     try{
-        let id_publication = await publicationService.obtainIdPublication()
-
-        if(id_publication.length == 0){
-            id_publication = 0
-        }else{
-            id_publication = id_publication[0].id_publication+1
-        }
-
         const route = new Route({
-            id_publication: id_publication,
-            id_user: req.body.id_user,
+            email: req.body.email,
             date: req.body.date,
             name: req.body.name,
             category: req.body.category,

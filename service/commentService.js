@@ -1,6 +1,5 @@
 const Comment = require("../models/Comment")
-const Route = require("../models/Route")
-const User = require("../models/User")
+
 
 const getComment = async(id) => {
     const commentPublication = await Comment.findById({_id: id})
@@ -22,18 +21,13 @@ const deleteComment = async(id) => {
     return commentPublication
 }
 
-const obtainIdPublication = async(id) => {
-    const commentPublication = await Route.find({"id_publication":id})
-    return commentPublication
-}
-
-const obtainIdUser = async(id) => {
-    const commentPublication = await User.find({"id_user":id})
-    return commentPublication
-}
-
 const createComment = async (body) => {
     const commentPublication = await body.save()
+    return commentPublication
+}
+
+const obtainUserComments = async (email) => {
+    const commentPublication = await Comment.find({"email":email})
     return commentPublication
 }
 
@@ -43,7 +37,6 @@ module.exports = {
     getAllComments,
     deleteComment,
     updateComment, 
-    obtainIdPublication,
-    obtainIdUser,
-    createComment
+    createComment,
+    obtainUserComments
 }

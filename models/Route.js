@@ -1,12 +1,9 @@
 const mongoose = require('mongoose');
 
 let routeSchema = new mongoose.Schema({
-    id_publication:{
-      type: Number,
-      required: true,  
-    },
-    id_user: {
-        type: Number,
+    email:{
+        type: String,
+        unique: true,
         required: true,
     },
     date: {

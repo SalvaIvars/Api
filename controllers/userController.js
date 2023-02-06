@@ -1,10 +1,11 @@
 const UserService = require('../service/userService')
+const CommentService = require('../service/commentService')
+const publicationService = require("../service/publicationService")
 const errorHandler = require('../helpers/errorHandler')
 const imageUtils = require('../utils/imageUtils')
 const imageService = require('../service/imageService')
 const path = require('path')
 const fs = require('fs')
-const publicationService = require("../service/publicationService")
 
 const getAllUsers = async (req,res) => {
     try{
@@ -45,19 +46,23 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
     try{
         const user = await UserService.getUser(req.params.id)
-        
-        deleteRoutePicturesByUser(user.email,req,res)
-        delteRoutesByUser(user.email,req,res)
-        deleteProfilePicture(user.email, req, res)
-        deleteCommentByUser(user.email, req, res)
+        if(user == null){
+            return errorHandler("User doesn't exists", req, res)
+        }
 
-        const response = await UserService.deleteUser(req.params.id)
+        deleteRoutePicturesByUser(user.email,req,res)
+        //delteRoutesByUser(user.email,req,res)
+        //deleteProfilePicture(user.email, req, res)
+       // deleteCommentByUser(user.email, req, res)
+
+        //await UserService.deleteUser(req.params.id)
         res.status(200).send({
             status:'200',
-            data: "User delted"
+            data: "User deleted"
         })
     }catch (e){
-        return errorHandler(e.message, req, res)
+        //return errorHandler(e.message, req, res)
+        return
     }
 }
 
@@ -95,13 +100,17 @@ const delteRoutesByUser = async(email,req,res) => {
 }
 
 const deleteCommentByUser = async(email, req, res) => {
-    
+    const commentList = await CommentService.obtainUserComments(email)
+    commentList.forEach((com) => {
+        CommentService.deleteComment(com._id)
+    })
 }
 
 const deleteRoutePicturesByUser = async(email,req,res) => {
     const publicationList = await UserService.obtainUserPublications(email)
+    console.log("publicationlist: " + publicationList)
     publicationList.forEach((pub) => {
-        imageService.delteRouteImages(pub.id_publication,req,res)
+        imageService.delteRouteImages(pub._id,req,res)
     })
 }
 

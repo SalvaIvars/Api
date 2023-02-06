@@ -31,7 +31,7 @@ const createRoute = async (body) => {
 }
 
 const checkIfIdPublicationExists = async(id_publication) => {
-    const responsePublication = await Route.findOne({"id_publication":id_publication})
+    const responsePublication = await Route.findOne({"_id:":id_publication})
     if(responsePublication == null){
         return false
     }else{

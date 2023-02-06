@@ -51,16 +51,15 @@ const updateComment = async (req, res) => {
 }
 
 const createComment = async (req, res) => {
-    try{   
+    try{
         const comment = new Comment({
             date:req.body.date,
             message: req.body.message,
-            id_user:req.body.id_user,
+            email: req.body.email,
             id_publication:req.body.id_publication
         })
 
         const response = await CommentService.createComment(comment)
-
         res.status(200).send({
             status:'200',
             data: response
