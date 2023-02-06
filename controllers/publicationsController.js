@@ -2,7 +2,6 @@ const Route = require("../models/Route")
 const publicationService = require("../service/publicationService")
 const errorHandler = require('../helpers/errorHandler')
 const path = require('path')
-const imageUtils = require('../utils/imageUtils')
 
 const getAllRoutes = async (req, res) =>  {
     try{
@@ -74,7 +73,7 @@ const createRoute = async (req, res) => {
             photo: req.body.photo,
             privacy: req.body.privacy,
         })
-
+        
         const response = await publicationService.createRoute(route)
         res.status(200).send({
             status:'200',

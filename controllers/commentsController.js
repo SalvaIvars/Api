@@ -51,28 +51,22 @@ const updateComment = async (req, res) => {
 }
 
 const createComment = async (req, res) => {
-    try{
-        const id_user = await CommentService.obtainIdUser(req.body.id_user)
-        const id_publication =  await CommentService.obtainIdPublication(req.body.id_publication)
-    
-        if(id_user == null || id_publication == null){
-            return errorHandler('Publications/User error', req, res)
-        }
-    
+    try{   
         const comment = new Comment({
             date:req.body.date,
             message: req.body.message,
-            id_user:id_usuario.id_user,
-            id_publication:id_publication.id_publication
+            id_user:req.body.id_user,
+            id_publication:req.body.id_publication
         })
 
         const response = await CommentService.createComment(comment)
+
         res.status(200).send({
             status:'200',
             data: response
         })
     }catch (e){
-        return errorHandler(e, req, res)
+        return errorHandler(e.message, req, res)
     }
 }
 

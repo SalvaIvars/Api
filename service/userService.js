@@ -85,9 +85,16 @@ const obtainUserPublications = async(email) => {
     const id_user = await obtainIdUserEmail(email)
     const responseRoute = await Route.find({"id_user":id_user})
     return responseRoute
-
 }
 
+const checkIfIdUserExists = async(id) => {
+    const exists = await User.find({"id_user":id})
+    if(exists == null){
+        return false
+    }else{
+        return true
+    }
+}
 module.exports = {
     getUser,
     getAllUsers,
@@ -100,5 +107,6 @@ module.exports = {
     checkEmail,
     checkNick,
     foundUserByEmail,
-    obtainUserPublications
+    obtainUserPublications,
+    checkIfIdUserExists
 }

@@ -30,6 +30,14 @@ const createRoute = async (body) => {
     return responsePublication
 }
 
+const checkIfIdPublicationExists = async(id_publication) => {
+    const responsePublication = await Route.findOne({"id_publication":id_publication})
+    if(responsePublication == null){
+        return false
+    }else{
+        return true
+    }
+}
 
 module.exports = {
     getRoute,
@@ -37,5 +45,6 @@ module.exports = {
     deleteRoute,
     updateRoute, 
     obtainIdPublication,
-    createRoute
+    createRoute,
+    checkIfIdPublicationExists
 }

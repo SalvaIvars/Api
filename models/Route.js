@@ -20,6 +20,7 @@ let routeSchema = new mongoose.Schema({
     category: {
         type: String,
         trim:true,
+        required: true,
         default: 'escalada',
     },
     distance: {
