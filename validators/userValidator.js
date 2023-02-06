@@ -3,7 +3,7 @@ const errorHandler = require('../helpers/errorHandler')
 const UserService = require('../service/userService')
 const { validateResult } = require('../helpers/validateHelper')
 
-const validateCreate = [ 
+const validateCreate = () => {return [ 
     check('nick')
     .trim()
     .not()
@@ -11,8 +11,9 @@ const validateCreate = [
     .withMessage("Invalid nick")
     .custom(async (nick)=>{
         const searchedNick = await UserService.checkNick(nick);
-        if(searchedNick.length > 0)
-            return errorHandler("Nick already in use", req, res)
+        if(searchedNick.length > 0){
+            throw new Error("Invalid nick")
+        }
     }),
 
     check('name')
@@ -30,19 +31,17 @@ const validateCreate = [
         .withMessage("Invalid email")
         .custom(async (email)=>{
             const searchedEmail = await UserService.checkEmail(email);
-            if(searchedEmail.length > 0)
-                return errorHandler("Email already in use", req, res)
+            if(searchedEmail.length > 0){
+                throw new Error("Invalid email")
+            }
         }),
 
     check('password')
         .trim()
         .not()
         .isEmpty(),
-
-    (req, res, next) => {
-        validateResult(req, res, next)
-    }
-]
+    ]
+}
 
 const validateLogin = [ 
     check('email')
@@ -62,9 +61,6 @@ const validateLogin = [
         .not()
         .isEmpty(),
 
-    (req, res, next) => {
-        validateResult(req, res, next)
-    }
 ]
 
 const validateUpdateUser = [ 

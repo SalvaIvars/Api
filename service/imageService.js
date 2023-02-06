@@ -5,7 +5,7 @@ const errorHandler = require('../helpers/errorHandler')
 
 const delteRouteImages = async(id_publication,req,res) => {
     let dir = path.join(__dirname, '/../images/publicationPicture/'+id_publication+'/')
-    console.log(dir)
+    console.log("dir: " + dir)
     if(fs.existsSync(dir)){
         try{
             await imageUtils.findByExtension(dir, id_publication).then((files) => {
@@ -17,6 +17,7 @@ const delteRouteImages = async(id_publication,req,res) => {
                     dir = path.join(dir,files[file])
                     fs.unlink(dir, (err) => {
                         if (err) {
+                            console.log("dentro error unlink")
                             return errorHandler(err, req, res);
                         }
                     })

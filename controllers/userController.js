@@ -53,7 +53,7 @@ const deleteUser = async (req, res) => {
         deleteRoutePicturesByUser(user.email,req,res)
         //delteRoutesByUser(user.email,req,res)
         //deleteProfilePicture(user.email, req, res)
-       // deleteCommentByUser(user.email, req, res)
+        //deleteCommentByUser(user.email, req, res)
 
         //await UserService.deleteUser(req.params.id)
         res.status(200).send({
@@ -108,7 +108,7 @@ const deleteCommentByUser = async(email, req, res) => {
 
 const deleteRoutePicturesByUser = async(email,req,res) => {
     const publicationList = await UserService.obtainUserPublications(email)
-    console.log("publicationlist: " + publicationList)
+    console.log(publicationList)
     publicationList.forEach((pub) => {
         imageService.delteRouteImages(pub._id,req,res)
     })

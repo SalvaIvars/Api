@@ -74,7 +74,6 @@ const foundUserByEmail = async(email) => {
 
 const obtainUserPublications = async(email) => {
     const responseUser = await Route.find({"email":email})
-    console.log(responseUser)
     return responseUser
 }
 

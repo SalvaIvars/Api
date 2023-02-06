@@ -64,7 +64,6 @@ const createRoute = async (req, res) => {
             photo: req.body.photo,
             privacy: req.body.privacy,
         })
-        
         const response = await publicationService.createRoute(route)
         res.status(200).send({
             status:'200',

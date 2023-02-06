@@ -9,9 +9,8 @@ const filename = async (req, file, cb) => {
         return cb("Error uploading image")
     }
 
-    const publicationPath = path.join(__dirname,'/../images/publicationPicture/'+req.body.id_publication+'/')
-
-    let nFiles = await imageUtils.getNumberOfFiles(publicationPath)
+    const publicationPath = path.join(__dirname,'/../images/publicationPictures/'+req.body.id_publication+'/')
+    let nFiles =  await imageUtils.getNumberOfFiles(publicationPath)
 
     cb(null, `${req.body.id_publication}_${nFiles}${path.extname(file.originalname)}`)
 }
@@ -29,7 +28,7 @@ const fileFilter = (req, file, cb) => {
 }
 
 const destination = async (req, file, cb) => {
-    const publicationPath = path.join(__dirname,'/../images/publicationPicture/'+req.body.id_publication+'/')
+    const publicationPath = path.join(__dirname,'/../images/publicationPictures/'+req.body.id_publication+'/')
 
     try {
         if(fs.existsSync(publicationPath)){
