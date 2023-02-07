@@ -1,8 +1,8 @@
 const User = require("../models/User")
 const Route = require("../models/Route")
 
-const getUser = async(id) => {
-    const responseUser = await User.findById({_id: id})
+const getUser = async(email) => {
+    const responseUser = await User.find({"email": email})
     return responseUser
 }
 
@@ -16,8 +16,8 @@ const updateUser = async(id, data) => {
     return responseUser
 }
 
-const deleteUser = async(id) => {
-    const responseUser = await User.findByIdAndDelete(id)
+const deleteUser = async(email) => {
+    const responseUser = await User.findOneAndDelete({"email":email})
     return responseUser
 }
 
@@ -77,6 +77,15 @@ const obtainUserPublications = async(email) => {
     return responseUser
 }
 
+const updateUserPhoto = async(email, name) => {
+    const responseUser = await User.updateOne({"email":email}, {$set: {"photo":name}})
+    if(responseUser != null){
+        return true
+    }else{
+        return false
+    }
+}
+
 module.exports = {
     getUser,
     getAllUsers,
@@ -88,5 +97,6 @@ module.exports = {
     checkEmail,
     checkNick,
     foundUserByEmail,
-    obtainUserPublications
+    obtainUserPublications,
+    updateUserPhoto
 }

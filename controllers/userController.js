@@ -21,7 +21,8 @@ const getAllUsers = async (req,res) => {
 
 const getUser = async (req,res) => {
     try{
-        const response = await UserService.getUser(req.params.id)
+        console.log(req.params.email)
+        const response = await UserService.getUser(req.params.email)
         res.status(200).send({
             status:'200',
             data: response
@@ -44,17 +45,17 @@ const updateUser = async (req, res) => {
 }
 
 const deleteUser = async (req, res) => {
-    const user = await UserService.getUser(req.params.id)
+    const user = await UserService.getUser(req.params.email)
     if(user == null){
         return errorHandler("User doesn't exists", req, res)
     }
 
-    deleteRoutePicturesByUser(user.email,req,res)
-    delteRoutesByUser(user.email,req,res)
-    deleteProfilePicture(user.email, req, res)
-    deleteCommentByUser(user.email, req, res)
+    deleteRoutePicturesByUser(req.params.email,req,res)
+    delteRoutesByUser(req.params.email,req,res)
+    deleteProfilePicture(req.params.email, req, res)
+    deleteCommentByUser(req.params.email, req, res)
 
-    await UserService.deleteUser(req.params.id)
+    await UserService.deleteUser(req.params.email)
     res.status(200).send({
         status:'200',
         data: "User deleted"
@@ -121,12 +122,26 @@ const getProfilePicture = async (req, res) => {
     });
 }
 
+const postPhoto = async (req, res) => {
+    try{
+        let profilePicturePath = path.join(__dirname,'/../images/profilePicture/')
+        let files = await imageUtils.findByExtension(profilePicturePath, req.body.email)
+        const response = await UserService.updateUserPhoto(req.body.email, files[0])
+        res.status(200).send({
+            status:'200',
+            data: response
+        })
+    }catch(e){
+        return errorHandler(e.message, req, res)
+    }
+}
+
 module.exports = {
     getAllUsers,
     getUser,
     updateUser,
     deleteUser,
     getProfilePicture,
-    deleteProfilePicture
-    
+    deleteProfilePicture,
+    postPhoto
 }

@@ -9,13 +9,11 @@ const router = express.Router();
 router
    .get("/", verify.verifyJWT,userController.getAllUsers)
    .get("/photo", userController.getProfilePicture)
-   .get("/:id", verify.verifyJWT,userController.getUser)
+   .get("/:email", verify.verifyJWT,userController.getUser)
    .put("/:id",verify.verifyJWTAdmin,userController.updateUser)
    .delete("/:id", verify.verifyJWTAdmin, userController.deleteUser)
    .delete("/photo", userController.deleteProfilePicture)
-   .post("/photo", userValidator.validateEmail(),validateHelper.validateResult, uploadImage.uploadProfilePicture, function(req,res){
-      res.sendStatus(200)
-  })
+   .post("/photo",  uploadImage.uploadProfilePicture, userController.postPhoto)
 
 
 module.exports = router;

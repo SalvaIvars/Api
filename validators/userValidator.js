@@ -1,5 +1,4 @@
 const { check } = require('express-validator')
-const errorHandler = require('../helpers/errorHandler')
 const UserService = require('../service/userService')
 
 const validateCreate = () => {return [ 
@@ -102,8 +101,9 @@ const validateEmail = () => {return[
         .withMessage("Invalid email")
         .custom(async (email)=>{
             const searchedEmail = await UserService.checkEmail(email);
-            if(searchedEmail.length <= 0)
+            if(searchedEmail.length <= 0){
                 throw new Error("Invalid email")
+            }
         }),
 ]}
 
