@@ -11,7 +11,7 @@ router
    .get("/photo", userController.getProfilePicture)
    .get("/:email", verify.verifyJWT,userController.getUser)
    .put("/:id",verify.verifyJWTAdmin,userController.updateUser)
-   .delete("/:id", verify.verifyJWTAdmin, userController.deleteUser)
+   .delete("/:email", verify.verifyJWTAdmin, userController.deleteUser)
    .delete("/photo", userController.deleteProfilePicture)
    .post("/photo",  uploadImage.uploadProfilePicture, userController.postPhoto)
 

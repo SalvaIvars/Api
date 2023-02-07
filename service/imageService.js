@@ -27,11 +27,6 @@ const delteRouteImages = async(id_publication,req,res) => {
                         return errorHandler(err.message, req, res);
                     }
                 })
-
-                res.status(200).send({
-                    status:'200',
-                    data: "Images deleted"
-                })
             })
         }catch(e){
             return;

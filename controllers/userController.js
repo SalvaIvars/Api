@@ -21,7 +21,6 @@ const getAllUsers = async (req,res) => {
 
 const getUser = async (req,res) => {
     try{
-        console.log(req.params.email)
         const response = await UserService.getUser(req.params.email)
         res.status(200).send({
             status:'200',
@@ -46,12 +45,13 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
     const user = await UserService.getUser(req.params.email)
+    
     if(user == null){
         return errorHandler("User doesn't exists", req, res)
     }
 
     deleteRoutePicturesByUser(req.params.email,req,res)
-    delteRoutesByUser(req.params.email,req,res)
+    deleteRoutesByUser(req.params.email,req,res)
     deleteProfilePicture(req.params.email, req, res)
     deleteCommentByUser(req.params.email, req, res)
 
@@ -67,7 +67,7 @@ const deleteProfilePicture = async (email,req, res) => {
     try{
         await imageUtils.findByExtension(dir, email).then((files) => {
             if(files.length == 0){
-                return errorHandler("User doesn't have an image", req, res)
+                return 
             }
             dir = path.join(dir, files[0])
             if(files.length != 0){
@@ -75,11 +75,6 @@ const deleteProfilePicture = async (email,req, res) => {
                     if (err) {
                         return errorHandler(err.message, req, res)
                     }
-                
-                    res.status(200).send({
-                        status:'200',
-                        data: "Image deleted"
-                    })
                 });
             }
         });
@@ -88,7 +83,7 @@ const deleteProfilePicture = async (email,req, res) => {
     }
 }
 
-const delteRoutesByUser = async(email,req,res) => {
+const deleteRoutesByUser = async(email,req,res) => {
     const publicationList = await UserService.obtainUserPublications(email)
     publicationList.forEach((pub) => {
         publicationService.deleteRoute(pub._id)
