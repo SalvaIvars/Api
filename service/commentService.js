@@ -31,6 +31,11 @@ const obtainUserComments = async (email) => {
     return commentPublication
 }
 
+const obtainRouteComments = async(id) => {
+    const commentPublication = await Comment.find({"id": id})
+    return commentPublication
+}
+
 
 module.exports = {
     getComment,
@@ -38,5 +43,6 @@ module.exports = {
     deleteComment,
     updateComment, 
     createComment,
-    obtainUserComments
+    obtainUserComments,
+    obtainRouteComments
 }

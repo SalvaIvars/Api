@@ -20,11 +20,6 @@ const deleteRoute = async(id) => {
     return responsePublication
 }
 
-const obtainIdPublication = async() => {
-    const responsePublication = await Route.find().sort({"id_publication":-1}).limit(1)
-    return responsePublication
-}
-
 const createRoute = async (body) => {
     const responsePublication = await body.save()
     return responsePublication
@@ -39,12 +34,17 @@ const checkIfIdPublicationExists = async(id_publication) => {
     }
 }
 
+const getUserRoutes = async(email) => {
+    const responsePublication = await Route.find({"email":email})
+    return responsePublication
+}
+
 module.exports = {
     getRoute,
     getAllRoutes,
     deleteRoute,
     updateRoute, 
-    obtainIdPublication,
     createRoute,
-    checkIfIdPublicationExists
+    checkIfIdPublicationExists,
+    getUserRoutes
 }

@@ -1,7 +1,6 @@
 const { check } = require('express-validator')
 const errorHandler = require('../helpers/errorHandler')
 const UserService = require('../service/userService')
-const { validateResult } = require('../helpers/validateHelper')
 
 const validateCreate = () => {return [ 
     check('nick')
@@ -43,7 +42,7 @@ const validateCreate = () => {return [
     ]
 }
 
-const validateLogin = [ 
+const validateLogin = () => {return[ 
     check('email')
         .trim()
         .not()
@@ -53,17 +52,16 @@ const validateLogin = [
         .custom(async (email)=>{
             const searchedEmail = await UserService.checkEmail(email);
             if(searchedEmail.length <= 0)
-                return errorHandler("Email not registered", req, res)
+                throw new Error("Invalid email")
         }),
 
     check('password')
         .trim()
         .not()
         .isEmpty(),
+]}
 
-]
-
-const validateUpdateUser = [ 
+const validateUpdateUser = () => {return [ 
     check('nick')
     .trim()
     .not()
@@ -72,7 +70,7 @@ const validateUpdateUser = [
     .custom(async (nick)=>{
         const searchedNick = await UserService.checkNick(nick);
         if(searchedNick.length > 0)
-            return errorHandler("Nick already in use", req, res)
+            throw new Error("Invalid email")
     }),
 
     check('name')
@@ -91,16 +89,27 @@ const validateUpdateUser = [
         .custom(async (email)=>{
             const searchedEmail = await UserService.checkEmail(email);
             if(searchedEmail.length <= 0)
-                return errorHandler("Email not registered", req, res)
+                throw new Error("Invalid email")
         }),
+]}
 
-    (req, res, next) => {
-        validateResult(req, res, next)
-    }
-]
+const validateEmail = () => {return[ 
+    check('email')
+        .trim()
+        .not()
+        .isEmpty()
+        .isEmail()
+        .withMessage("Invalid email")
+        .custom(async (email)=>{
+            const searchedEmail = await UserService.checkEmail(email);
+            if(searchedEmail.length <= 0)
+                throw new Error("Invalid email")
+        }),
+]}
 
 module.exports = { 
     validateCreate,
     validateLogin,
-    validateUpdateUser
+    validateUpdateUser,
+    validateEmail
 }

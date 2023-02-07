@@ -1,6 +1,8 @@
 const Route = require("../models/Route")
 const publicationService = require("../service/publicationService")
+const commentService = require('../service/commentService')
 const errorHandler = require('../helpers/errorHandler')
+const imageUtils = require('../utils/imageUtils')
 const path = require('path')
 
 const getAllRoutes = async (req, res) =>  {
@@ -9,6 +11,30 @@ const getAllRoutes = async (req, res) =>  {
         res.status(200).send({
             status:'200',
             data: response
+        })
+    }catch (e){
+        return errorHandler(e.message, req, res)
+    }
+}
+
+const getUserRoutes = async (req, res) => {
+    try{
+        const response = await publicationService.getUserRoutes(req.params.email)
+        res.status(200).send({
+            status:'200',
+            data: response
+        })
+    }catch (e){
+        return errorHandler(e.message, req, res)
+    }
+}
+
+const getNumberPhotoRoutes = async (req, res) => {
+    try{
+        const nFiles = await imageUtils.getNumberOfFiles(path.join(__dirname,'/../images/publicationPicture/'+req.params.id_publication+'/'))
+        res.status(200).send({
+            status:'200',
+            data: nFiles
         })
     }catch (e){
         return errorHandler(e.message, req, res)
@@ -41,6 +67,7 @@ const updateRoute = async (req, res) => {
 
 const deleteRoute = async (req, res) => {
     try{
+        deleteRouteComments(req.params.id, req, res)
         const response = await publicationService.deleteRoute(req.params.id)
         res.status(200).send({
             status:'200',
@@ -50,6 +77,18 @@ const deleteRoute = async (req, res) => {
         return errorHandler(ee.message, req, res)
     }
 }
+
+const deleteRouteComments = async (id, req, res) => {
+    try{
+        const commentsList = await commentService.obtainRouteComments(id)
+        commentsList.forEach((com) => {
+            commentService.deleteComment(com._id)
+        })
+    }catch (e){
+
+    }
+}
+
 const createRoute = async (req, res) => {
     try{
         const route = new Route({
@@ -74,16 +113,12 @@ const createRoute = async (req, res) => {
     }
 }
 
-const getPublicationPictures = async(req, res) => {
-    const dir = path.join(__dirname,'/../images/publicationPicture/'+req.body.id_publication+'/')
-    // Enviar con static
-}
-
 module.exports = {
     getAllRoutes,
     getRoute,
     createRoute,
     deleteRoute,
     updateRoute,
-    getPublicationPictures
+    getUserRoutes,
+    getNumberPhotoRoutes
 }

@@ -3,16 +3,17 @@ const userController = require("../controllers/userController");
 const verify = require('../middleware/verify')
 const uploadImage = require("../middleware/uploader");
 const userValidator = require('../validators/userValidator');
+const validateHelper = require('../helpers/validateHelper')
 const router = express.Router();
 
 router
    .get("/", verify.verifyJWT,userController.getAllUsers)
    .get("/photo", userController.getProfilePicture)
    .get("/:id", verify.verifyJWT,userController.getUser)
-   .put("/:id",verify.verifyJWTAdmin,userValidator.validateUpdateUser, userController.updateUser)
+   .put("/:id",verify.verifyJWTAdmin,userController.updateUser)
    .delete("/:id", verify.verifyJWTAdmin, userController.deleteUser)
    .delete("/photo", userController.deleteProfilePicture)
-   .post("/photo", uploadImage.uploadProfilePicture, function(req,res){
+   .post("/photo", userValidator.validateEmail(),validateHelper.validateResult, uploadImage.uploadProfilePicture, function(req,res){
       res.sendStatus(200)
   })
 

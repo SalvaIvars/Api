@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser')
-const expressValidator = require('express-validator')
+const path = require('path')
 mongoose.set('strictQuery', true); 
 
 try{
@@ -27,6 +27,7 @@ app.use("/publications", publicationsRoutes);
 app.use("/comments", commentsRoutes)
 app.use("/auth", authRoutes)
 
+app.use(express.static("images")  )
 
 app.listen(PORT, () => {
     console.log('Servidor web iniciado')

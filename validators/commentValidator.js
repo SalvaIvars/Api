@@ -2,9 +2,8 @@ const { check } = require('express-validator')
 const errorHandler = require('../helpers/errorHandler')
 const UserService = require('../service/userService')
 const PublicationService = require('../service/publicationService')
-const { validateResult } = require('../helpers/validateHelper')
 
-const validateCreate = [ 
+const validateCreate = () => {return [ 
     check('message')
         .trim()
         .not()
@@ -26,7 +25,7 @@ const validateCreate = [
         .custom(async (email)=>{
             const searchedEmail = await UserService.checkEmail(email);
             if(searchedEmail.length <= 0)
-                return errorHandler("This email doesn't exists", req, res)
+            throw new Error("Invalid email")
         }),
 
     check('id_publication')
@@ -37,13 +36,9 @@ const validateCreate = [
         .custom(async (id_publication)=>{
             const exists = await PublicationService.checkIfIdPublicationExists(id_publication);
             if(!exists)
-                return errorHandler("Id_publication doesn't exist", req, res)
+                throw new Error("Invalid id_publication")
         }),
-        
-    (req, res, next) => {
-        validateResult(req, res, next)
-    }
-]
+]}
 
 module.exports = {
     validateCreate

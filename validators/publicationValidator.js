@@ -1,7 +1,7 @@
 const { check } = require('express-validator')
-const { validateResult } = require('../helpers/validateHelper')
+const UserService = require('../service/userService')
 
-const validateCreate = [ 
+const validateCreate = () => {return [ 
     check('email')
     .trim()
     .not()
@@ -11,7 +11,7 @@ const validateCreate = [
     .custom(async (email)=>{
         const searchedEmail = await UserService.checkEmail(email);
         if(searchedEmail.length <= 0)
-            return errorHandler("This email doesn't exists", req, res)
+            throw new Error("Invalid email")
     }),
 
     check('name')
@@ -50,12 +50,7 @@ const validateCreate = [
         .not()
         .isAlpha()
         .withMessage("Invalid duration"),
-
-    (req, res, next) => {
-        validateResult(req, res, next)
-    }
-]
-
+]}
 module.exports = {
     validateCreate
 }

@@ -44,26 +44,21 @@ const updateUser = async (req, res) => {
 }
 
 const deleteUser = async (req, res) => {
-    try{
-        const user = await UserService.getUser(req.params.id)
-        if(user == null){
-            return errorHandler("User doesn't exists", req, res)
-        }
-
-        deleteRoutePicturesByUser(user.email,req,res)
-        //delteRoutesByUser(user.email,req,res)
-        //deleteProfilePicture(user.email, req, res)
-        //deleteCommentByUser(user.email, req, res)
-
-        //await UserService.deleteUser(req.params.id)
-        res.status(200).send({
-            status:'200',
-            data: "User deleted"
-        })
-    }catch (e){
-        //return errorHandler(e.message, req, res)
-        return
+    const user = await UserService.getUser(req.params.id)
+    if(user == null){
+        return errorHandler("User doesn't exists", req, res)
     }
+
+    deleteRoutePicturesByUser(user.email,req,res)
+    delteRoutesByUser(user.email,req,res)
+    deleteProfilePicture(user.email, req, res)
+    deleteCommentByUser(user.email, req, res)
+
+    await UserService.deleteUser(req.params.id)
+    res.status(200).send({
+        status:'200',
+        data: "User deleted"
+    })
 }
 
 const deleteProfilePicture = async (email,req, res) => {
@@ -108,7 +103,6 @@ const deleteCommentByUser = async(email, req, res) => {
 
 const deleteRoutePicturesByUser = async(email,req,res) => {
     const publicationList = await UserService.obtainUserPublications(email)
-    console.log(publicationList)
     publicationList.forEach((pub) => {
         imageService.delteRouteImages(pub._id,req,res)
     })
