@@ -57,7 +57,7 @@ let routeSchema = new mongoose.Schema({
         type: Number
     },
     rec_movement : [{
-        type: Number
+        type: Object
     }]
 });
 
