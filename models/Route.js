@@ -43,7 +43,22 @@ let routeSchema = new mongoose.Schema({
     privacy: {
         type: String,
         default: "public"
-    }
+    },
+    lat_A: {
+        type: Number
+    },
+    lng_A: {
+        type: Number
+    },
+    lat_B: {
+        type: Number
+    },
+    lng_B: {
+        type: Number
+    },
+    rec_movement : [{
+        type: Number
+    }]
 });
 
 let Route = mongoose.model('Route', routeSchema);

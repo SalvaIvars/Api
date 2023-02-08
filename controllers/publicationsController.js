@@ -102,6 +102,11 @@ const createRoute = async (req, res) => {
             description: req.body.description, 
             photo: req.body.photo,
             privacy: req.body.privacy,
+            lat_A: req.body.lat_A,
+            lng_A: req.body.lng_A,
+            lat_B:  req.body.lat_B,
+            lng_B:  req.body.lng_B,
+            rec_movement :  req.body.rec_movement
         })
         const response = await publicationService.createRoute(route)
         res.status(200).send({
