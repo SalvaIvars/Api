@@ -3,12 +3,11 @@ const path = require('path');
 const imageUtils = require('../utils/imageUtils')
 const fs = require('fs')
 
-const filename = (req, file, cb) => {
-    if(req.body.email == null){
+const filename = (req, file,cb) => {
+    if(req.params.email== null){
         return cb("Error uploading image")
     }
-
-    cb(null, `${req.body.email}${path.extname(file.originalname)}`)
+    cb(null, `${req.params.email}${path.extname(file.originalname)}`)
 }
 
 const fileFilter = (req, file, cb) => {
@@ -25,7 +24,7 @@ const fileFilter = (req, file, cb) => {
 
 const destination = async (req, file, cb) => {
     let profilePicturePath = path.join(__dirname,'/../images/profilePicture/')
-    let files = await imageUtils.findByExtension(profilePicturePath, req.body.email)
+    let files = await imageUtils.findByExtension(profilePicturePath, req.params.email)
     if(files.length > 0){
         let pictureDelete = path.join(profilePicturePath, files[0])
         fs.unlink(pictureDelete, (err) => {

@@ -13,7 +13,7 @@ router
    .put("/:id",verify.verifyJWTAdmin,userController.updateUser)
    .delete("/:email", verify.verifyJWTAdmin, userController.deleteUser)
    .delete("/photo", userController.deleteProfilePicture)
-   .post("/photo",  uploadImage.uploadProfilePicture, userController.postPhoto)
+   .post("/:email", uploadImage.uploadProfilePicture,  userController.postPhoto)
 
 
 module.exports = router;

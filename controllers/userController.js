@@ -120,8 +120,8 @@ const getProfilePicture = async (req, res) => {
 const postPhoto = async (req, res) => {
     try{
         let profilePicturePath = path.join(__dirname,'/../images/profilePicture/')
-        let files = await imageUtils.findByExtension(profilePicturePath, req.body.email)
-        const response = await UserService.updateUserPhoto(req.body.email, files[0])
+        let files = await imageUtils.findByExtension(profilePicturePath, req.params.email)
+        const response = await UserService.updateUserPhoto(req.params.email, files[0])
         res.status(200).send({
             status:'200',
             data: response

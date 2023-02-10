@@ -31,7 +31,7 @@ const getUserRoutes = async (req, res) => {
 
 const getNumberPhotoRoutes = async (req, res) => {
     try{
-        const nFiles = await imageUtils.getNumberOfFiles(path.join(__dirname,'/../images/publicationPicture/'+req.params.id_publication+'/'))
+        const nFiles = await imageUtils.findByExtension(path.join(__dirname,'/../images/publicationPicture/'+req.params.id_publication+'/'), req.params.id_publication)
         res.status(200).send({
             status:'200',
             data: nFiles
