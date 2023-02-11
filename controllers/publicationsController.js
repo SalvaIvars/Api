@@ -32,9 +32,15 @@ const getUserRoutes = async (req, res) => {
 const getNumberPhotoRoutes = async (req, res) => {
     try{
         const nFiles = await imageUtils.findByExtension(path.join(__dirname,'/../images/publicationPicture/'+req.params.id_publication+'/'), req.params.id_publication)
+        const listFiles = []
+
+        for (const item of nFiles) {
+            listFiles.push(item);
+          }
+
         res.status(200).send({
             status:'200',
-            data: nFiles
+            data: listFiles
         })
     }catch (e){
         return errorHandler(e.message, req, res)

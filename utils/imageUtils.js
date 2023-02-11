@@ -2,7 +2,7 @@ const { readdir } = require('fs/promises');
 const path = require('path')
 
 const findByExtension = async (dir, name) => {
-    const matchedFiles = [];
+    const matchedFiles = new Set();
     const extensions = ['PNG','png', 'jpg','jpeg','jpg','svg', 'JPG']
     const files = await readdir(dir);
 
@@ -11,7 +11,7 @@ const findByExtension = async (dir, name) => {
             const fileExt = path.extname(file);
             for(const ext in extensions){
                 if (fileExt === `.${extensions[ext]}`) {
-                    matchedFiles.push(file);
+                    matchedFiles.add(file);
                 }
             }
         }

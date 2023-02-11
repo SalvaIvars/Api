@@ -86,6 +86,10 @@ const updateUserPhoto = async(email, name) => {
     }
 }
 
+const removePhotoUser = async(email) => {
+    const responseUser = await User.updateOne({"email":email}, {$set: {"photo":""}})
+}
+
 module.exports = {
     getUser,
     getAllUsers,
@@ -98,5 +102,6 @@ module.exports = {
     checkNick,
     foundUserByEmail,
     obtainUserPublications,
-    updateUserPhoto
+    updateUserPhoto,
+    removePhotoUser
 }
