@@ -33,13 +33,13 @@ const getUser = async (req,res) => {
 
 const updateUser = async (req, res) => {
     try{
-        const response = await UserService.updateUser(req.params.id, req.body)
+        const response = await UserService.updateUser(req.body.email, req.body)
         res.status(200).send({
             status:'200',
             data: response
         })
     }catch (e){
-        return errorHandler(e, req, res)
+        return errorHandler(e.message, req, res)
     }
 }
 
@@ -121,7 +121,21 @@ const postPhoto = async (req, res) => {
     try{
         let profilePicturePath = path.join(__dirname,'/../images/profilePicture/')
         let files = await imageUtils.findByExtension(profilePicturePath, req.params.email)
-        const response = await UserService.updateUserPhoto(req.params.email, files[0])
+        var file = files.values();
+        var fileValue = file.next();
+        const response = await UserService.updateUserPhoto(req.params.email, fileValue.value)
+        res.status(200).send({
+            status:'200',
+            data: response
+        })
+    }catch(e){
+        return errorHandler(e.message, req, res)
+    }
+}
+
+const getFollowers = async (req, res) => {
+    try{
+        const response = await UserService.getFollowers(req.params.email)
         res.status(200).send({
             status:'200',
             data: response
@@ -138,5 +152,6 @@ module.exports = {
     deleteUser,
     getProfilePicture,
     deleteProfilePicture,
-    postPhoto
+    postPhoto,
+    getFollowers
 }
