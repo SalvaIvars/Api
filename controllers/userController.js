@@ -136,6 +136,13 @@ const postPhoto = async (req, res) => {
     }
 }
 
+const followingMe = async(req, res) => {
+    try{
+        let 
+    }catch(e){
+        return errorHandler(e.message, req, res)
+    }
+}
 module.exports = {
     getAllUsers,
     getUser,
