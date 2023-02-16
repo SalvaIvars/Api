@@ -25,8 +25,10 @@ const fileFilter = (req, file, cb) => {
 const destination = async (req, file, cb) => {
     let profilePicturePath = path.join(__dirname,'/../images/profilePicture/')
     let files = await imageUtils.findByExtension(profilePicturePath, req.params.email)
+    var file = files.values();
+    var fileValue = file.next();
     if(files.length > 0){
-        let pictureDelete = path.join(profilePicturePath, files[0])
+        let pictureDelete = path.join(profilePicturePath, fileValue.value)
         fs.unlink(pictureDelete, (err) => {
             if (err) {
                 return errorHandler(err.message, req, res);

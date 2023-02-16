@@ -9,8 +9,9 @@ const router = express.Router();
 router
    .get("/", verify.verifyJWT,userController.getAllUsers)
    .get("/photo", userController.getProfilePicture)
+   .get("/followers/:email", userController.getFollowers)
    .get("/:email", verify.verifyJWT,userController.getUser)
-   .put("/:id",verify.verifyJWTAdmin,userController.updateUser)
+   .put("/",userController.updateUser)
    .delete("/:email", verify.verifyJWTAdmin, userController.deleteUser)
    .delete("/photo", userController.deleteProfilePicture)
    .post("/:email", uploadImage.uploadProfilePicture,  userController.postPhoto)

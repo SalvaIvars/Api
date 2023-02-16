@@ -11,8 +11,9 @@ const getAllUsers = async() => {
     return responseUser
 }
 
-const updateUser = async(id, data) => {
-    const responseUser = await User.findByIdAndUpdate(id, data)
+const updateUser = async(email, data) => {
+    const filter = { email: email };
+    const responseUser = await User.findOneAndUpdate(filter, data)
     return responseUser
 }
 
@@ -78,6 +79,7 @@ const obtainUserPublications = async(email) => {
 }
 
 const updateUserPhoto = async(email, name) => {
+    console.log("email " + name)
     const responseUser = await User.updateOne({"email":email}, {$set: {"photo":name}})
     if(responseUser != null){
         return true
@@ -89,6 +91,12 @@ const updateUserPhoto = async(email, name) => {
 const removePhotoUser = async(email) => {
     const responseUser = await User.updateOne({"email":email}, {$set: {"photo":""}})
 }
+
+const getFollowers = async(email) => {
+    const responseUser = await User.find({"following": email})
+    return responseUser
+}
+
 
 module.exports = {
     getUser,
@@ -103,5 +111,6 @@ module.exports = {
     foundUserByEmail,
     obtainUserPublications,
     updateUserPhoto,
-    removePhotoUser
+    removePhotoUser,
+    getFollowers
 }
