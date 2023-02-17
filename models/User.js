@@ -37,6 +37,12 @@ let userSchema = new mongoose.Schema({
         type: String,
         default: "user"
     },
+    fav_routes:[{
+        type:String
+    }],
+    description:{
+        type: String
+    }
 })  
 
 
