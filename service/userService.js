@@ -130,6 +130,12 @@ const unfollowUser = async(email, emailToUnfollow) => {
     return false
 }
 
+const getUsersFollowUser = async(email) =>{
+    const responseUser = await User.find({"following": { $elemMatch: {$eq: email}}})
+    return responseUser
+}
+
+
 module.exports = {
     getUser,
     getAllUsers,
@@ -147,5 +153,6 @@ module.exports = {
     getFollowers,
     followUser,
     checkIfUserFollowsThisUser,
-    unfollowUser
+    unfollowUser,
+    getUsersFollowUser
 }
