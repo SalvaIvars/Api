@@ -1,4 +1,5 @@
 const Route = require("../models/Route")
+const User = require("../models/User")
 
 const getRoute = async(id) => {
     const responsePublication = await Route.findById({_id: id})
@@ -39,6 +40,39 @@ const getUserRoutes = async(email) => {
     return responsePublication
 }
 
+const checkIfUserFollowsThisRoute = async(email, routeToFollow) => {
+    const responsePublication = await User.find({"email":email},{"fav_routes": { $elemMatch: {$eq: routeToFollow}}})
+    let result = false;
+    responsePublication.forEach((elem)=> { 
+        if(elem.fav_routes.includes(routeToFollow)){
+            result = true
+        }else{
+            result = false
+        }
+    })
+        
+    if(result){
+        return true
+    }
+    return false
+}
+
+const followRoute = async(email, routeToFollow) => {
+    const responseUser  = await User.updateOne({"email":email}, {$push:{"fav_routes":routeToFollow}} )
+    if(responseUser!=null){
+        return true
+    }
+    return false
+}
+
+const unfollowRoute = async(email, routeToFollow) => {
+    const responseUser = await User.updateOne({"email":email}, {$pull:{"fav_routes":routeToFollow}})
+    if(responseUser!=null){
+        return true
+    }
+    return false
+}
+
 module.exports = {
     getRoute,
     getAllRoutes,
@@ -46,5 +80,8 @@ module.exports = {
     updateRoute, 
     createRoute,
     checkIfIdPublicationExists,
-    getUserRoutes
+    getUserRoutes,
+    checkIfUserFollowsThisRoute,
+    followRoute,
+    unfollowRoute
 }

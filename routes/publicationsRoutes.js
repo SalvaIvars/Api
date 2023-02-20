@@ -15,6 +15,8 @@ router
    .post("/",verify.verifyJWT, publicationValidator.validateCreate(), validateHelper.validateResult, publicationsController.createRoute)
    .put("/:id", verify.verifyJWT,  publicationsController.updateRoute)
    .delete("/:id", verify.verifyJWT,publicationsController.deleteRoute)
+   .post("/like", publicationsController.likeRoute)
+   .post("/unlike", publicationsController.removeLikeRoute)
    .post("/photo", uploadImage.uploadPublicationPictures, function(req,res){
       res.sendStatus(200)
   })
