@@ -73,6 +73,11 @@ const unfollowRoute = async(email, routeToFollow) => {
     return false
 }
 
+const getUsersLikeRoute = async(route) => {
+    const responseUser = await User.find({"fav_routes": { $elemMatch: {$eq: route}}})
+    return responseUser
+}
+
 module.exports = {
     getRoute,
     getAllRoutes,
@@ -83,5 +88,6 @@ module.exports = {
     getUserRoutes,
     checkIfUserFollowsThisRoute,
     followRoute,
-    unfollowRoute
+    unfollowRoute,
+    getUsersLikeRoute
 }

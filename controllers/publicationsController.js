@@ -164,6 +164,19 @@ const removeLikeRoute = async(req, res) => {
     }
 }
 
+const getLikes = async(req,res) => {
+    try{
+        const userList = await publicationService.getUsersLikeRoute(req.params.id)
+        const nLikes = userList.length;
+        res.status(200).send({
+            status:'200',
+            data: nLikes
+        })
+    }catch (e){
+
+    }
+}
+
 module.exports = {
     getAllRoutes,
     getRoute,
@@ -173,5 +186,6 @@ module.exports = {
     getUserRoutes,
     getNumberPhotoRoutes,
     likeRoute,
-    removeLikeRoute
+    removeLikeRoute,
+    getLikes
 }
