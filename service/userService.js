@@ -97,6 +97,38 @@ const getFollowers = async(email) => {
     return responseUser
 }
 
+const checkIfUserFollowsThisUser = async(email, emailToFollow) => {
+    const responseUser = await User.find({"email":email},{"following": { $elemMatch: {$eq: emailToFollow}}})
+    let result = false;
+    responseUser.forEach((elem)=> { 
+        if(elem.following.includes(emailToFollow)){
+            result = true
+        }else{
+            result = false
+        }
+    })
+        
+    if(result){
+        return true
+    }
+    return false
+}
+
+const followUser = async(email, emailToFollow) => {
+    const responseUser  = await User.updateOne({"email":email}, {$push:{"following":emailToFollow}} )
+    if(responseUser!=null){
+        return true
+    }
+    return false
+}
+
+const unfollowUser = async(email, emailToUnfollow) => {
+    const responseUser = await User.updateOne({"email":email}, {$pull:{"following":emailToUnfollow}})
+    if(responseUser!=null){
+        return true
+    }
+    return false
+}
 
 module.exports = {
     getUser,
@@ -112,5 +144,8 @@ module.exports = {
     obtainUserPublications,
     updateUserPhoto,
     removePhotoUser,
-    getFollowers
+    getFollowers,
+    followUser,
+    checkIfUserFollowsThisUser,
+    unfollowUser
 }

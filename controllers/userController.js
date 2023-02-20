@@ -145,6 +145,47 @@ const getFollowers = async (req, res) => {
     }
 }
 
+const followUser = async(req, res) => {
+    try{
+        const checkIfFollows = await UserService.checkIfUserFollowsThisUser(req.body.email, req.body.emailToFollow)
+        if(checkIfFollows){
+            res.status(400).send({
+                status:'400',
+                data: "User already follows this user"
+            })
+        }else{
+            const response = await UserService.followUser(req.body.email, req.body.emailToFollow)
+            res.status(200).send({
+                status:'200',
+                data: response
+            })
+        }
+    }catch(e){
+        return errorHandler(e.message, req, res)
+    }
+}
+
+const unfollowUser = async(req, res) => {
+    try{
+        const checkIfFollows = await UserService.checkIfUserFollowsThisUser(req.body.email, req.body.emailToUnfollow)
+
+        if(checkIfFollows){
+            const response = await UserService.unfollowUser(req.body.email, req.body.emailToUnfollow)
+            res.status(200).send({
+                status:'200',
+                data: response
+            })
+        }else{
+            res.status(400).send({
+                status:'400',
+                data: "User doesn't follow this user"
+            })
+        }
+    }catch(e){
+        return errorHandler(e.message, req, res)
+    }
+}
+
 module.exports = {
     getAllUsers,
     getUser,
@@ -153,5 +194,7 @@ module.exports = {
     getProfilePicture,
     deleteProfilePicture,
     postPhoto,
-    getFollowers
+    getFollowers,
+    followUser,
+    unfollowUser    
 }

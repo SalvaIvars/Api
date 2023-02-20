@@ -14,7 +14,8 @@ router
    .put("/",userController.updateUser)
    .delete("/:email", verify.verifyJWTAdmin, userController.deleteUser)
    .delete("/photo", userController.deleteProfilePicture)
+   .post("/unfollow", userController.unfollowUser)
+   .post("/follow", userController.followUser)
    .post("/:email", uploadImage.uploadProfilePicture,  userController.postPhoto)
-
 
 module.exports = router;

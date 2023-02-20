@@ -58,6 +58,9 @@ let routeSchema = new mongoose.Schema({
     },
     rec_movement : [{
         type: Object
+    }],
+    fav_routes: [{
+        type: String
     }]
 });
 

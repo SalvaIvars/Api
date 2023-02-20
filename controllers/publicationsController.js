@@ -124,6 +124,14 @@ const createRoute = async (req, res) => {
     }
 }
 
+const likeRoute = async(req, res)  => {
+
+}
+
+const removeLikeRoute = async(req, res) => {
+    
+}
+
 module.exports = {
     getAllRoutes,
     getRoute,
