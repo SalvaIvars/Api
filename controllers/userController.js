@@ -54,11 +54,20 @@ const deleteUser = async (req, res) => {
     deleteRoutesByUser(req.params.email,req,res)
     deleteProfilePicture(req.params.email, req, res)
     deleteCommentByUser(req.params.email, req, res)
+    // eliminar de la lista de seguidores de otros usuarios
+    deleteFollowedUser(req.params.email, req, res)
 
     await UserService.deleteUser(req.params.email)
     res.status(200).send({
         status:'200',
         data: "User deleted"
+    })
+}
+
+const deleteFollowedUser = async(email, req, res) => {
+    const userList = await UserService.getUsersFollowUser(email)
+    userList.forEach((user) => {
+        UserService.unfollowUser(user.email, email)
     })
 }
 
@@ -145,13 +154,47 @@ const getFollowers = async (req, res) => {
     }
 }
 
-const followingMe = async(req, res) => {
+const followUser = async(req, res) => {
     try{
-        let 
+        const checkIfFollows = await UserService.checkIfUserFollowsThisUser(req.body.email, req.body.emailToFollow)
+        if(checkIfFollows){
+            res.status(400).send({
+                status:'400',
+                data: "User already follows this user"
+            })
+        }else{
+            const response = await UserService.followUser(req.body.email, req.body.emailToFollow)
+            res.status(200).send({
+                status:'200',
+                data: response
+            })
+        }
     }catch(e){
         return errorHandler(e.message, req, res)
     }
 }
+
+const unfollowUser = async(req, res) => {
+    try{
+        const checkIfFollows = await UserService.checkIfUserFollowsThisUser(req.body.email, req.body.emailToUnfollow)
+
+        if(checkIfFollows){
+            const response = await UserService.unfollowUser(req.body.email, req.body.emailToUnfollow)
+            res.status(200).send({
+                status:'200',
+                data: response
+            })
+        }else{
+            res.status(400).send({
+                status:'400',
+                data: "User doesn't follow this user"
+            })
+        }
+    }catch(e){
+        return errorHandler(e.message, req, res)
+    }
+}
+
 module.exports = {
     getAllUsers,
     getUser,
@@ -160,5 +203,7 @@ module.exports = {
     getProfilePicture,
     deleteProfilePicture,
     postPhoto,
-    getFollowers
+    getFollowers,
+    followUser,
+    unfollowUser    
 }

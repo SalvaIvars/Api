@@ -124,6 +124,59 @@ const createRoute = async (req, res) => {
     }
 }
 
+const likeRoute = async(req, res)  => {
+    try{
+        const checkIfFollows = await publicationService.checkIfUserFollowsThisRoute(req.body.email, req.body.route)
+        if(checkIfFollows){
+            res.status(400).send({
+                status:'400',
+                data: "User already likes this route"
+            })
+        }else{
+            const response = await publicationService.followRoute(req.body.email, req.body.route)
+            res.status(200).send({
+                status:'200',
+                data: response
+            })
+        }
+    }catch(e){
+        return errorHandler(e.message, req, res)
+    }
+}
+
+const removeLikeRoute = async(req, res) => {
+    try{
+        const checkIfFollows = await publicationService.checkIfUserFollowsThisRoute(req.body.email, req.body.route)
+        if(!checkIfFollows){
+            res.status(400).send({
+                status:'400',
+                data: "User doesn't like this route"
+            })
+        }else{
+            const response = await publicationService.unfollowRoute(req.body.email, req.body.route)
+            res.status(200).send({
+                status:'200',
+                data: response
+            })
+        }
+    }catch(e){
+        return errorHandler(e.message, req, res)
+    }
+}
+
+const getLikes = async(req,res) => {
+    try{
+        const userList = await publicationService.getUsersLikeRoute(req.params.id)
+        const nLikes = userList.length;
+        res.status(200).send({
+            status:'200',
+            data: nLikes
+        })
+    }catch (e){
+
+    }
+}
+
 module.exports = {
     getAllRoutes,
     getRoute,
@@ -131,5 +184,8 @@ module.exports = {
     deleteRoute,
     updateRoute,
     getUserRoutes,
-    getNumberPhotoRoutes
+    getNumberPhotoRoutes,
+    likeRoute,
+    removeLikeRoute,
+    getLikes
 }
