@@ -42,6 +42,12 @@ let userSchema = new mongoose.Schema({
     }],
     description:{
         type: String
+    },
+    loginAttempts:{
+        type: Number,
+    },
+    lockUntil:{
+        type: Number,
     }
 })  
 

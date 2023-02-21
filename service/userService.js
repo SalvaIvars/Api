@@ -135,6 +135,11 @@ const getUsersFollowUser = async(email) =>{
     return responseUser
 }
 
+const updateLock = async(email) =>{
+    const responseUser = await User.find({"email":email})
+    const userDB = responseUser.save()
+    userDB.updateOne({$set:{loginAttempts:0}, $unset: {lockUntil: 1}})
+}
 
 module.exports = {
     getUser,
@@ -154,5 +159,6 @@ module.exports = {
     followUser,
     checkIfUserFollowsThisUser,
     unfollowUser,
-    getUsersFollowUser
+    getUsersFollowUser,
+    updateLock
 }

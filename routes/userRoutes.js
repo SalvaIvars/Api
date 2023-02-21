@@ -8,14 +8,14 @@ const router = express.Router();
 
 router
    .get("/", verify.verifyJWT,userController.getAllUsers)
-   .get("/photo", userController.getProfilePicture)
-   .get("/followers/:email", userController.getFollowers)
-   .get("/:email", verify.verifyJWT,userController.getUser)
-   .put("/",userController.updateUser)
-   .delete("/:email", verify.verifyJWTAdmin, userController.deleteUser)
-   .delete("/photo", userController.deleteProfilePicture)
-   .post("/unfollow", userController.unfollowUser)
-   .post("/follow", userController.followUser)
-   .post("/:email", uploadImage.uploadProfilePicture,  userController.postPhoto)
+   .get("/photo",verify.verifyJWT, userValidator.validateEmail(), userController.getProfilePicture)
+   .get("/followers/:email", verify.verifyJWT, userValidator.validateEmail(), userController.getFollowers)
+   .get("/:email", verify.verifyJWT, userValidator.validateEmail(), userController.getUser)
+   .put("/",verify.verifyJWT,userValidator.validateUpdateUser(),userController.updateUser)
+   .delete("/:email", verify.verifyJWTAdmin, userValidator.validateEmail(),userController.deleteUser)
+   .delete("/photo",verify.verifyJWT,userValidator.validateEmail(), userController.deleteProfilePicture)
+   .post("/unfollow",verify.verifyJWT,userValidator.validateEmail(), userController.unfollowUser)
+   .post("/follow",verify.verifyJWT, userValidator.validateEmail(),userController.followUser)
+   .post("/:email",verify.verifyJWT,userValidator.validateEmail(), uploadImage.uploadProfilePicture,  userController.postPhoto)
 
 module.exports = router;

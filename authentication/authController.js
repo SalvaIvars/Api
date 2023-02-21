@@ -4,10 +4,14 @@ const bcrypt = require('bcryptjs')
 const errorHandler = require('../helpers/errorHandler')
 const UserService = require('../service/userService')
 require('dotenv').config()
+
+const saltRounds = 10; 
+const MAX_LOGIN_ATTEMPTS = 3;
+const LOCK_TIME = 3 * 60 * 1000;
  
 // register
 const signUp = async (req, res) => { 
-    const hashedPwd = await bcrypt.hash(req.body.password, 10)
+    const hashedPwd = await bcrypt.hash(req.body.password, saltRounds)
 
     const userDoc =  new User({
         name: req.body.name,
@@ -48,18 +52,40 @@ const signIn = async (req, res) => {
     }catch (e){
         return errorHandler(e, req, res)
     }
+    let ahora = Date.now();
+    let isLocked = foundUser.lockUntil && foundUser.lockUntil > ahora
+    let hasLockExpired = foundUser.lockUntil && foundUser.lockUntil < ahora
+    let loginAttempts = foundUser.loginAttempts;
 
-    const match = await bcrypt.compare(password, foundUser.password)
-
-    if(match){
-        const accessToken = createAccessToken(foundUser.name, foundUser.rol)
-        res.status(201).send({
-            status:'201',
-            accessToken: accessToken,
-            id: foundUser._id
+    if(isLocked){
+        res.status(403).send({
+            status:'403',
+            data:'Superado el número máximo de intentos'
         })
     }else{
-        return errorHandler('Email/Password incorrect', req, res)
+        if(hasLockExpired){
+            await foundUser.updateOne({ $set: { loginAttempts: 0 }, $unset: { lockUntil: 1 } });
+            loginAttempts = 0
+        }
+        const match = await bcrypt.compare(password, foundUser.password)
+
+        if(match){
+            if(loginAttempts>0){
+                await foundUser.updateOne({ $set: { loginAttempts: 0 }, $unset: { lockUntil: 1 } })        }
+            const accessToken = createAccessToken(foundUser.name, foundUser.rol)
+            res.status(201).send({
+                status:'201',
+                accessToken: accessToken,
+                id: foundUser._id
+            })
+        }else{
+            var updates = { $inc: { loginAttempts: 1 } };
+            if (loginAttempts + 1 >= MAX_LOGIN_ATTEMPTS) {
+            updates.$set = { lockUntil: Date.now() + LOCK_TIME };
+            }
+            await foundUser.updateOne(updates);
+            return errorHandler('Email/Password incorrect', req, res)
+        }
     }
 }
 
