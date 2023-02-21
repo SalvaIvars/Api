@@ -19,7 +19,7 @@ const validateCreate = () => {return [
         .trim()
         .not()
         .isEmpty()
-        .isAlpha()
+        .isAlpha('es-ES', {ignore : ' '})
         .withMessage("Invalid name"),
 
     check('category')
