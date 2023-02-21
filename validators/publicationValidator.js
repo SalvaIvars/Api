@@ -1,5 +1,6 @@
 const { check } = require('express-validator')
 const UserService = require('../service/userService')
+const PublicationService = require('../service/publicationService')
 
 const validateCreate = () => {return [ 
     check('email')
@@ -51,6 +52,7 @@ const validateCreate = () => {return [
         .isAlpha()
         .withMessage("Invalid duration"),
 ]}
+
 module.exports = {
-    validateCreate
+    validateCreate,
 }

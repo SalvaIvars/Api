@@ -107,9 +107,25 @@ const validateEmail = () => {return[
         }),
 ]}
 
+const checkIfEmailExists = () => {return[ 
+    check('email')
+        .trim()
+        .not()
+        .isEmpty()
+        .isEmail()
+        .withMessage("Invalid email")
+        .custom(async (email)=>{
+            const searchedEmail = await UserService.checkEmail(email);
+            if(searchedEmail.length > 0){
+                throw new Error("This user doesn't exist")
+            }
+        }),
+]}
+
 module.exports = { 
     validateCreate,
     validateLogin,
     validateUpdateUser,
-    validateEmail
+    validateEmail,
+    checkIfEmailExists
 }

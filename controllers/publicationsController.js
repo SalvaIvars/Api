@@ -52,7 +52,7 @@ const getRoute = async (req, res) => {
         const response = await publicationService.getRoute(req.params.id)
         res.status(200).send({
             status:'200',
-            data: response
+            data: [response]
         })
     }catch (e){
         return errorHandler(e.message, req, res)

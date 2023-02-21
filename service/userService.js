@@ -79,7 +79,6 @@ const obtainUserPublications = async(email) => {
 }
 
 const updateUserPhoto = async(email, name) => {
-    console.log("email " + name)
     const responseUser = await User.updateOne({"email":email}, {$set: {"photo":name}})
     if(responseUser != null){
         return true
