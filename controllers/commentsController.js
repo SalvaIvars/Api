@@ -69,9 +69,9 @@ const createComment = async (req, res) => {
     }
 }
 
-const obtainRouteComments = async (req, res) => {
+const getRouteComments = async (req, res) => {
     try{
-        const response = await CommentService.getRouteComments(req.params.id)
+        const response = await CommentService.obtainRouteComments(req.params.id)
         res.status(200).send({
             status:'200',
             data: response
@@ -87,5 +87,5 @@ module.exports = {
     createComment,
     deleteComment,
     updateComment,
-    obtainRouteComments,
+    getRouteComments,
 }
