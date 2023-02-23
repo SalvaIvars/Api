@@ -1,6 +1,5 @@
 const Comment = require("../models/Comment")
 
-
 const getComment = async(id) => {
     const commentPublication = await Comment.findById({_id: id})
     return commentPublication

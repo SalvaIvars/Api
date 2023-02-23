@@ -69,10 +69,23 @@ const createComment = async (req, res) => {
     }
 }
 
+const obtainRouteComments = async (req, res) => {
+    try{
+        const response = await CommentService.getRouteComments(req.params.id)
+        res.status(200).send({
+            status:'200',
+            data: response
+        })
+    }catch (e){
+        return errorHandler(e, req, res)
+    }
+}
+
 module.exports = {
     getAllComments,
     getComment,
     createComment,
     deleteComment,
     updateComment,
+    obtainRouteComments,
 }

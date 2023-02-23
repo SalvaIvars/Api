@@ -8,6 +8,7 @@ const router = express.Router()
 router
     .get('/', verify.verifyJWT,commentsController.getAllComments)
     .get('/:id', verify.verifyJWT,commentsController.getComment)
+    .get('/publication/:id', verify.verifyJWT, commentsController.obtainRouteComments)
     .delete('/:id', verify.verifyJWTAdmin,commentsController.deleteComment)
     .post('/', verify.verifyJWTAdmin, commentValidator.validateCreate(), validateHelper.validateResult, commentsController.createComment)
     .put('/:id', verify.verifyJWTAdmin, commentsController.updateComment)
