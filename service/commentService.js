@@ -31,7 +31,7 @@ const obtainUserComments = async (email) => {
 }
 
 const obtainRouteComments = async(id) => {
-    const commentPublication = await Comment.find({"id": id})
+    const commentPublication = await Comment.find({"id_publication": id})
     return commentPublication
 }
 
