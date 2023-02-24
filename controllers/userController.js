@@ -52,12 +52,12 @@ const deleteUser = async (req, res) => {
 
     deleteRoutePicturesByUser(req.params.email,req,res)
     deleteRoutesByUser(req.params.email,req,res)
-    deleteProfilePicture(req.params.email, req, res)
+    deleteProfilePicture(req, res)
     deleteCommentByUser(req.params.email, req, res)
-    // eliminar de la lista de seguidores de otros usuarios
     deleteFollowedUser(req.params.email, req, res)
 
     await UserService.deleteUser(req.params.email)
+
     res.status(200).send({
         status:'200',
         data: "User deleted"
@@ -71,25 +71,23 @@ const deleteFollowedUser = async(email, req, res) => {
     })
 }
 
-const deleteProfilePicture = async (email,req, res) => {
+const deleteProfilePicture = async (req, res) => {
     let dir = path.join(__dirname, '/../images/profilePicture/')
-    try{
-        await imageUtils.findByExtension(dir, email).then((files) => {
-            if(files.length == 0){
-                return 
-            }
-            dir = path.join(dir, files[0])
-            if(files.length != 0){
-                fs.unlink(dir, (err) => {
-                    if (err) {
-                        return errorHandler(err.message, req, res)
-                    }
-                });
-            }
-        });
-    }catch(e){
-        return ;
-    }
+
+    await imageUtils.findByExtension(dir, req.params.email).then((files) => {
+        if(files.size == 0){
+            return
+        }
+        let file = files.values()
+        dir = path.join(dir, file.next().value)
+        if(files.length != 0){
+            fs.unlink(dir, (err) => {
+                if (err) {
+                    return errorHandler(err.message, req, res)
+                }
+            });
+        }
+    });
 }
 
 const deleteRoutesByUser = async(email,req,res) => {
@@ -111,19 +109,6 @@ const deleteRoutePicturesByUser = async(email,req,res) => {
     publicationList.forEach((pub) => {
         imageService.delteRouteImages(pub._id,req,res)
     })
-}
-
-const getProfilePicture = async (req, res) => {
-    let dir = path.join(__dirname, '/../images/profilePicture/')
-    let defaultImage = path.join(__dirname,'/../images/profilePicture/defaultProfilePicture.png')
-    await imageUtils.findByExtension(dir.toString(), req.body.email).then((files) => {
-        if(files.length === 0){
-            return res.sendFile(defaultImage)
-        }
-
-        dir = path.join(dir, files[0])
-        res.sendFile( dir)
-    });
 }
 
 const postPhoto = async (req, res) => {
@@ -200,7 +185,6 @@ module.exports = {
     getUser,
     updateUser,
     deleteUser,
-    getProfilePicture,
     deleteProfilePicture,
     postPhoto,
     getFollowers,

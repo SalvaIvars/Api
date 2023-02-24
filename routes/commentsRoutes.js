@@ -10,7 +10,7 @@ router
     .get('/publication/:id', verify.verifyJWT, commentsController.getRouteComments)
     .get('/:id', verify.verifyJWT,commentsController.getComment)
     .delete('/:id', verify.verifyJWTAdmin,commentsController.deleteComment)
-    .post('/', verify.verifyJWTAdmin, commentValidator.validateCreate(), validateHelper.validateResult, commentsController.createComment)
+    .post('/', verify.verifyJWT, commentValidator.validateCreate(), validateHelper.validateResult, commentsController.createComment)
     .put('/:id', verify.verifyJWTAdmin, commentsController.updateComment)
 
 module.exports = router;

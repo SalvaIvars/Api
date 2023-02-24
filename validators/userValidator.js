@@ -10,7 +10,7 @@ const validateCreate = () => {return [
     .custom(async (nick)=>{
         const searchedNick = await UserService.checkNick(nick);
         if(searchedNick.length > 0){
-            throw new Error("Invalid nick")
+            throw new Error("Nick is already used")
         }
     }),
 
@@ -30,14 +30,15 @@ const validateCreate = () => {return [
         .custom(async (email)=>{
             const searchedEmail = await UserService.checkEmail(email);
             if(searchedEmail.length > 0){
-                throw new Error("Invalid email")
+                throw new Error("Email is already used")
             }
         }),
 
     check('password')
         .trim()
         .not()
-        .isEmpty(),
+        .isEmpty()
+        .withMessage("Invalid Password")
     ]
 }
 

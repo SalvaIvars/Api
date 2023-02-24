@@ -21,9 +21,9 @@ const delteRouteImages = async(id_publication,req,res) => {
                     })
                     dir = path.join(__dirname, '/../images/publicationPicture/'+id_publication+'/')
                 }
-
-                fs.rmdir(dir, (err) => {
+                fs.rmSync(dir, { recursive: true, force: true },(err) => {
                     if (err) {
+                        console.log(err.message)
                         return errorHandler(err.message, req, res);
                     }
                 })

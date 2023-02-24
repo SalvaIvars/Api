@@ -1,22 +1,27 @@
 const multer = require('multer');
 const path = require('path')
-const imageUtils = require('../utils/imageUtils')
 const fs = require('fs')
-const fsExtra = require('fs-extra');
+
 
 const filename = async (req, file, cb) => {
     if(req.body.id_publication == null){
         return cb("Error uploading image")
     }
 
-    const publicationPath = path.join(__dirname,'/../images/publicationPicture/'+req.body.id_publication+'/')
-    let nFiles =  await imageUtils.getNumberOfFiles(publicationPath)
-
+    const publicationPath = path.join(__dirname,'/../images/publicationPicture/'+req.body.id_publication)
+    let nFiles = await new Promise((resolve,reject)=>{
+        fs.readdir(publicationPath, (error, files)=>{
+            if(error){
+                cb(error); 
+            }
+            resolve(files.length);
+        });
+    }) 
     if(nFiles >= 10 ){
         return cb("Photos limit reached")
+    }else{
+        cb(null, `${req.body.id_publication}_${nFiles}${path.extname(file.originalname)}`)
     }
-
-    cb(null, `${req.body.id_publication}_${nFiles}${path.extname(file.originalname)}`)
 }
 
 const fileFilter = (req, file, cb) => {
@@ -35,11 +40,7 @@ const destination = async (req, file, cb) => {
     const publicationPath = path.join(__dirname,'/../images/publicationPicture/'+req.body.id_publication+'/')
 
     try {
-        if(fs.existsSync(publicationPath)){
-            //let nFiles = await imageUtils.getNumberOfFiles(publicationPath)
-            //fsExtra.emptyDirSync(publicationPath);
-        }
-        else{
+        if(!fs.existsSync(publicationPath)){
             fs.mkdir(publicationPath,(err) => {
                 if (err) {
                     return cb(err.message);
@@ -64,4 +65,4 @@ module.exports =  multer({
         fileSize: 100000000
     },
     fileFilter:fileFilter
-}).array('photo',10)
+}).any('photo',10)
