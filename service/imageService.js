@@ -23,7 +23,6 @@ const delteRouteImages = async(id_publication,req,res) => {
                 }
                 fs.rmSync(dir, { recursive: true, force: true },(err) => {
                     if (err) {
-                        console.log(err.message)
                         return errorHandler(err.message, req, res);
                     }
                 })
