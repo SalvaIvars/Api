@@ -12,6 +12,10 @@ const filename = async (req, file, cb) => {
     const publicationPath = path.join(__dirname,'/../images/publicationPicture/'+req.body.id_publication+'/')
     let nFiles =  await imageUtils.getNumberOfFiles(publicationPath)
 
+    if(nFiles >= 10 ){
+        return cb("Photos limit reached")
+    }
+
     cb(null, `${req.body.id_publication}_${nFiles}${path.extname(file.originalname)}`)
 }
 
@@ -57,7 +61,7 @@ const storage = multer.diskStorage({
 module.exports =  multer({
     storage:storage,
     limits: {
-        fileSize: 10000000
+        fileSize: 100000000
     },
     fileFilter:fileFilter
-}).any('photo',10)
+}).array('photo',10)

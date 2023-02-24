@@ -5,7 +5,6 @@ const findByExtension = async (dir, name) => {
     const matchedFiles = new Set();
     const extensions = ['PNG','png', 'jpg','jpeg','jpg','svg', 'JPG']
     const files = await readdir(dir);
-
     for (const file of files) {
         if(file.startsWith(name)){
             const fileExt = path.extname(file);
