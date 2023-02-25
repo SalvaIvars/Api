@@ -22,7 +22,8 @@ const signUp = async (req, res) => {
         password:hashedPwd,
         following: req.body.following,
         photo: req.body.photo,
-        rol: req.body.rol
+        rol: req.body.rol,
+        description: req.body.description
     })
 
     const accesToken = createAccessToken(userDoc.nombre, userDoc.rol)

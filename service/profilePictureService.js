@@ -2,11 +2,14 @@ const multer = require('multer');
 const path = require('path');
 const imageUtils = require('../utils/imageUtils')
 const fs = require('fs')
+const userController = require('../controllers/userController')
 
-const filename = (req, file,cb) => {
+const filename = async(req, file,cb) => {
     if(req.params.email== null){
         return cb("Error uploading image")
     }
+
+    await userController.deleteProfilePicture(req, cb)
     cb(null, `${req.params.email}${path.extname(file.originalname)}`)
 }
 
