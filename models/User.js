@@ -8,6 +8,7 @@ let userSchema = new mongoose.Schema({
     },
     lastname:{
         type: String,
+        default:""
     },
     email:{
         type: String,
@@ -32,6 +33,7 @@ let userSchema = new mongoose.Schema({
     }],
     photo:{
         type: String,
+        default:""
     },
     rol:{
         type: String,
@@ -41,7 +43,8 @@ let userSchema = new mongoose.Schema({
         type:String
     }],
     description:{
-        type: String
+        type: String,
+        default:""
     },
     loginAttempts:{
         type: Number,
