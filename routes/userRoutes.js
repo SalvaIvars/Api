@@ -12,7 +12,7 @@ router
    .get("/:email", verify.verifyJWT, userValidator.checkIfEmailExists(), userController.getUser)
    .put("/",verify.verifyJWT,userValidator.validateUpdateUser(),userController.updateUser)
    .delete("/photo/:email",verify.verifyJWT,userValidator.checkIfEmailExists(), userController.deleteProfilePicture)
-   .delete("/:email", verify.verifyJWTAdmin, userValidator.checkIfEmailExists(),userController.deleteUser)
+   .delete("/:email", verify.verifyJWT, userValidator.checkIfEmailExists(),userController.deleteUser)
    .post("/unfollow",verify.verifyJWT,userValidator.checkIfEmailExists(), userController.unfollowUser)
    .post("/follow",verify.verifyJWT, userValidator.checkIfEmailExists(),userController.followUser)
    .post("/:email",verify.verifyJWT,userValidator.checkIfEmailExists(), uploadImage.uploadProfilePicture,  userController.postPhoto)
